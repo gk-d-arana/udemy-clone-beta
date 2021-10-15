@@ -1,0 +1,187 @@
+
+  /* STYLES SPECIFIC TO FOOTER  */
+  .footer {
+   /*  position: relative;
+    bottom: 0; */
+    padding: 30px 0;
+    height: auto;
+    background-color: #333a36;
+  }
+  .contain{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .w-1400{
+    max-width: 1400px !important;
+  }
+
+
+  .footer .col {
+    width: 190px;
+    height: auto;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 0px 20px 20px 20px;
+  }
+  .footer .col h1 {
+    margin-bottom: 20px;
+    display: flex;
+    padding: 0; 
+    font-size: 1.2rem;
+    line-height: 17px;
+    padding: 20px 0px 5px 0px;
+    color: #fff !important;
+/*    color: rgba(255,255,255,0.2);
+*/    font-weight: bolder;
+    text-transform: uppercase;
+    letter-spacing: 0.250em;
+  }
+  .footer .col ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+  }
+  .footer .col ul li {
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0px 5px 0px;
+    cursor: pointer;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+  }
+  .social ul li {
+    display: inline-block;
+    padding-right: 5px !important;
+  }
+  
+  .footer .col ul li:hover {
+    transition: .1s;
+    text-decoration: underline;
+    -webkit-transition: .1s;
+    -moz-transition: .1s;
+  }
+
+ .social-links{
+    position: absolute !important;
+    right: 0;
+    width: 200px;
+    margin-top: 20%;
+} 
+
+.contain .row{
+    position: relative;
+}
+
+
+  .social-links a i{
+      margin: 19px;
+      transform: scale(218%);
+  }
+
+  .clearfix {
+    clear: both;
+  }
+  .products-card-head{
+  font-size:1.5rem
+  }
+  @media only screen and (min-width: 1280px) {
+    .contain {
+      width: 1200px;
+      margin-left: 8%;
+    }
+  }
+  @media only screen and (max-width: 1139px) {
+    .contain .social {
+      width: 1000px;
+      display: block;
+    }
+    .social h1 {
+      margin: 0px;
+    }
+	.landing-img{
+		margin-top: 100px;
+		height: 400px;
+	}
+	.landing-content{
+		position: relative;
+		top: 12%;
+		left: 70%;
+	}
+	.landing-content h1, .landing-content p{
+		font-size: 1.5rem;
+	}
+
+  }
+  @media only screen and (max-width: 950px) {
+    .footer .col {
+      width: 33%;
+    }
+    .footer .col h1 {
+      font-size: 14px;
+    }
+    .footer .col ul li {
+      font-size: 13px;
+    }
+    .social-links{
+        position: absolute !important;
+        right: 5%;
+        bottom: 5%;
+    } 
+	.landing-img{
+		margin-top: 100px;
+		height: 400px ;
+	}
+	.landing-content{
+		position: relative;
+		top: 7%;
+		left: 65%;
+	}
+	.landing-content h1, .landing-content p{
+		font-size: 1.5rem;
+	}
+	.products-card-text{
+		font-size: 10px;
+	}
+	.products-card-head{
+		font-size: 10px;
+		font-weight: bolder;
+	}
+  }
+  @media only screen and (max-width: 500px) {
+      .footer .col {
+        width: 50%;
+      }
+      .footer .col h1 {
+        font-size: 14px;
+      }
+      .footer .col ul li {
+        font-size: 13px;
+      }
+      .social-links{
+        position: absolute !important;
+        right: 0%;
+        bottom: 0%;
+    }
+}
+
+
+
+.footer ul li a{
+    color: #fff;
+    text-decoration: none !important;
+}
+
+
+.logo h1{
+    color: #fff; 
+    margin:0;
+    width:95%;
+    display:flex;
+    justify-content: flex-end;
+}

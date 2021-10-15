@@ -1,0 +1,87 @@
+.categories-ul {
+	list-style: none;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	padding: 15px 10px;
+	background-color: #fff;
+    margin: 0;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+}
+
+
+.home-img{
+    height: 400px;
+}
+
+
+.to-learn-btn, .to-learn-btn:hover, .to-learn-btn:focus{
+    font-size: 1.3rem ;
+     margin: 25px ;
+    background-color: #f67d20 ;
+    border-radius: 50px ;
+    color: #fff ; 
+    padding: 10px 40px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+    border: none;
+}
+
+
+.control-dots ,.carousel-status{
+    display: none !important;
+}
+
+
+.control-arrow{
+    width: 70px !important;
+    height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50%;
+    background-color: blue !important;
+}
+
+.control-next{
+    right: 5% !important;
+    top: 30% !important;
+
+}
+
+.control-prev{
+    left: 5% !important;
+    top: 30% !important;
+}
+
+
+.card {
+	background-color: transparent !important;
+    border: none !important;
+}
+
+
+.card-body{
+    text-align: start;
+}
+
+.card-title{
+    color: #1080d4;
+}
+
+
+.rating-div{
+    color: red;
+    display: flex;
+    align-items: center;
+    font-size:1.3rem;
+}
+
+.rating-div span{
+    margin-left: 10px;
+}
+
+.color-gold{
+    color: #f6852f !important;
+    text-align: start;
+}
+
