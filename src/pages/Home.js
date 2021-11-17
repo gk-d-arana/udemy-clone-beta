@@ -1,12 +1,16 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, {useEffect, useState} from 'react'
+import {  useSelector, useDispatch } from 'react-redux'
 import './assets/css/styles.css'
 import course from './assets/images/course.png'
 import home from './assets/images/home.jpg'
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import axios from 'axios';
+import {URL_ROOT} from '../utils/js'
 
 const starIcon = () => {
+
+    
     return (
         <div>
         <i className='bx bxs-star'></i>
@@ -19,8 +23,34 @@ const starIcon = () => {
 }
 
 export const Home = (props) => {
+  const mainData = useSelector(state => state.mainData.data)
+  const dispatch = useDispatch()
+  const [courses, setCourses] = useState([])
 
 
+  useEffect(()=>{
+
+    mainData.forEach(pcat => {
+
+      if(courses.find(course => course.pcat_name == pcat.parent_category.parent_category_name)){
+        return
+      }
+      axios({
+        method : 'GET',
+        url: `${URL_ROOT}/search_courses/${pcat.parent_category.parent_category_id}/`
+      }).then(res=>{
+        let obj = {
+            pcat_name : `${pcat.parent_category.parent_category_name}`, 
+            courses : res.data.results
+          }
+
+        setCourses([
+          ...courses,
+          obj
+        ])
+      })
+    })
+  }, [])
 
     return (
         <div>
@@ -39,15 +69,18 @@ export const Home = (props) => {
 
     </div>
 
-    <div className="container">
-    <h1 className="color-gold">Physics Course</h1>    
+
+{ mainData.map(pcat =>    <div><div className="container">
+    
+    
+    <h1 className="color-gold">kkkk</h1>    
 
     </div>
+
+
     <Carousel>
-    
+
     <div>
-
-
     <div className="container">
     <div className="row">
     <div className="card col-4">
@@ -266,11 +299,20 @@ export const Home = (props) => {
 </div>
 
     </Carousel>
+    </div>
+)}
+
+
+{/* 
+
 
     <div className="container">
     <h1 className="color-gold">Physics Course</h1>    
 
     </div>
+
+
+
     <Carousel>
     
     <div>
@@ -954,7 +996,7 @@ export const Home = (props) => {
 </div>
 
     </Carousel>
-
+ */}
 
 
         </div>
@@ -963,14 +1005,7 @@ export const Home = (props) => {
 
 
 
-const mapStateToProps = (state) => ({
-    
-})
 
-const mapDispatchToProps = {
-    
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
 
 

@@ -6,9 +6,12 @@ import { Link } from 'react-router-dom'
 import { Login } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInstructorInfo } from '../../store/auth/authActions' 
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 function Register ({setToken}) {
-
+	const [isEmpty, setIsEmpty]  =useState(false)
+	const [loading, setLoading] = useState(false)
 	const [username, setUsername] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -33,11 +36,20 @@ function Register ({setToken}) {
 	}, [])
 	
 	const handleSignUpBtn = (e) => {
-        setEmailNotValid(false)
-        if (!validateEmail(email)) {
-            setEmailNotValid(true)
+        setLoading(false)
+        setIsEmpty(false)
+        
+        //e.preventDefault();
+        if(firstName == "" || lastName == "" || username == "" || email == "" ||password =="" || bio == "" || document.querySelector('.profile-image').files[0] == undefined){
+            setIsEmpty(true)
             return
         }
+        setEmailNotValid(false)
+         if (!validateEmail(email)) {
+            setEmailNotValid(true)
+            return
+        } 
+        setLoading(true)
         let form =  new FormData()
         let profile_image = document.querySelector('.profile-image').files[0]
         form.append('profile_image', profile_image)
@@ -56,14 +68,16 @@ function Register ({setToken}) {
             },
             data:form
         }).then(res => {
-            localStorage.setItem('token', `${res.data.token}`)
-            setToken(res.data.token)
             if (res.data.token) {
+                localStorage.setItem('token', `${res.data.token}`)
+                setToken(res.data.token)
               let instructor = {
-                  "username" : username,
-                  "fisrt_name" : firstName,
-                  "last_name" : lastName,
-                  "email" : email,
+                 "user" : {
+					"username" : `${res.data.instructor.user.username}`,
+					"fisrt_name" : `${res.data.instructor.user.firstName}`,
+					"last_name" : `${res.data.instructor.user.lastName}`,
+					"email" : `${res.data.instructor.user.email}`
+                },
                   "bio" : bio,
                   "total_students": 0,
                   "total_reviews": 0,
@@ -78,15 +92,19 @@ function Register ({setToken}) {
               }) 
               history.push('/')      
             }
-            else if(res.data.message == "Username Already Used"){
+
+        })
+        .catch(err => {
+            if(err.response){
+            if(err.response.data.message == "Username Already Used"){
                 setUsernameAlreadyUsed(true)
             }
             else{
-            setNotValidData(true)
+                setNotValidData(true)
             }
-        })
-        .catch(err => {
-            console.log()
+        }
+            setLoading(false)
+
         });
         return
 	}
@@ -98,32 +116,32 @@ function Register ({setToken}) {
 					<h2>Sign Up And Let Us Get Started</h2>
                     <div  className="login-input-div">
                     <i className="fa fa-user"></i>
-                    <input placeholder="Enter Your First Name" className="login-input" value={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
+                    <input placeholder="Enter Your First Name" className="login-input" value={firstName} onChange={(e)=>setFirstName(e.target.value)} required/>
                 </div>
                 <div  className="login-input-div">
                 <i className="fa fa-user"></i>
-                <input placeholder="Enter Your Last Name" className="login-input" value={lastName} onChange={(e)=>setLastName(e.target.value)}/>
+                <input placeholder="Enter Your Last Name" className="login-input" value={lastName} onChange={(e)=>setLastName(e.target.value)} required/>
             </div>
                     <div  className="login-input-div">
                     <i className="fa fa-user"></i>
-                    <input placeholder="Enter Your User Name" className="login-input" value={username} onChange={(e)=>setUsername(e.target.value)}/>
+                    <input placeholder="Enter Your User Name" className="login-input" value={username} onChange={(e)=>setUsername(e.target.value)} required/>
                 </div>
 
 					<div  className="login-input-div">
 						<i className="fa fa-envelope"></i>
-						<input placeholder="Enter Your Email" type="email" className="login-input" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+						<input placeholder="Enter Your Email" type="email" className="login-input" value={email} onChange={(e)=>setEmail(e.target.value)} required/>
 					</div>
                     <div  className="login-input-div">
                     <i className="fa fa-pencil"></i>
-                        <input placeholder="Enter Your Bio" className="login-input" value={bio} onChange={(e)=>setBio(e.target.value)} />
+                        <input placeholder="Enter Your Bio" className="login-input" value={bio} onChange={(e)=>setBio(e.target.value)} required />
                     </div>
 					<div className="login-input-div">
 					<i className="fa fa-lock"></i>
-					<input placeholder="Enter Your Password" type="password" className="login-input" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+					<input placeholder="Enter Your Password" type="password" className="login-input" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
 					</div>
                     <div className="mb-3">
                         <label htmlFor="formFile" className="form-label profile-image-label">Choose Your Profile Image</label>
-                        <input className="form-control profile-image" type="file" id="formFile" />
+                        <input className="form-control profile-image" type="file" id="formFile" required/>
                     </div>
 {/*                     <div className="login-input-div">
 					<i className="fa fa-lock"></i>
@@ -133,9 +151,13 @@ function Register ({setToken}) {
                     {/* { passwordNotMatch && <p style={{color:'red'}}>Your Passwords Must Match</p>} */}
                     { emailNotValid && <p style={{color:'red'}}>Your Email Is Not Valid</p>}
                     { userNameAlreadyUsed && <p style={{color:'red'}}>Username Already Exists</p>}
+					{ isEmpty &&  <p style={{color:'red'}}>Please Enter Required Info</p>}
 
                     
-					<button  onClick={(e) => handleSignUpBtn(e)} className="btn login-btn"><i>Sign Up</i></button>
+					<button  onClick={(e) => handleSignUpBtn(e)} className="btn login-btn">
+                        {!loading && <i>Sign Up</i>}
+                        {loading && <CircularProgress />}
+                        </button>
 					<div className="more-actions">
 						<span>By Signing Up You Agree To Our</span>  <a href="#">Terms</a>and <a href="#">Privacy</a><br/>
 						<span>{"Already Have An Account?"}</span> <a href="#">
@@ -148,7 +170,7 @@ function Register ({setToken}) {
                         <br/>
 					</div>
 				</div>	
-		</div>
+        </div>
 			)
 
 

@@ -1,0 +1,2 @@
+export const SET_MAIN_DATA = "SET_MAIN_DATA";
+export const SET_HOME_COURSES = "SET_HOME_COURSES";

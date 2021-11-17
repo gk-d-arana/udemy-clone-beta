@@ -13,11 +13,14 @@ import Login from '../auth/Login';
 import { useSelector, useDispatch } from 'react-redux';
 import Register from '../auth/Register';
 import axios from 'axios';
+import {URL_ROOT} from '../../utils/js'
 
 
 
 const Wrapper = () => {
    const instructor = useSelector(state => state.auth.instructor) || {}
+   const data = useSelector(state => state.mainData.data) || []
+   //const [instructor, setInstructor] = useState(_instructor)
    const dispatch = useDispatch()
     const [token, setToken] =  useState(localStorage.getItem('token')) 
     const handleLogout = () => {
@@ -28,8 +31,6 @@ const Wrapper = () => {
     }
   
     useEffect(() => {
-    
-    
       if(localStorage.getItem('token') != null ){
         axios({
           url : "http://localhost:8000/profile/",
@@ -41,8 +42,8 @@ const Wrapper = () => {
         
           let instruc = {
             "username" : `${res.data.user.username}`,
-            "fisrt_name" : `${res.data.user.firstName}`,
-            "last_name" : `${res.data.user.lastName}`,
+            "fisrt_name" : `${res.data.user.first_name}`,
+            "last_name" : `${res.data.user.last_name}`,
             "email" : `${res.data.user.email}`,
             "bio" : `${res.data.bio}`,
             "total_students": res.data.total_students,
@@ -62,7 +63,17 @@ const Wrapper = () => {
         
         }).catch(e => console.log(e))
       }
-    
+
+      axios({
+        method: "GET",
+        url : `${URL_ROOT}/pcats_and_cats_and_topics/`
+      }).then(res=>res.data).then(res=>{
+        dispatch({
+          type : "SET_MAIN_DATA",
+          payload : res.data
+        })
+
+      })
     
     },[])
     
@@ -113,7 +124,8 @@ const Wrapper = () => {
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="container-fluid">
   
-            <a href="#">
+           <Link to="/">
+           <a href="#">
               <h1>
                 <span style={{color:'blue'}}>C</span>
                 <span style={{color:'red'}}>o</span>
@@ -125,7 +137,7 @@ const Wrapper = () => {
                 <span style={{color:'blue'}}>T</span>
               </h1>
             </a>   
-            
+            </Link>
 
             <div className="dropdown">
             <h3 className="dropbtn">
@@ -133,103 +145,29 @@ const Wrapper = () => {
             <i className='bx bxs-chevron-down'></i>
   
             </h3>
+           
+           
             <ul className="dropdown-content">
-              <li className="inner-li">
-              <p className="first-li-p">Development  <i className="bx bxs-chevron-right"></i> </p>
+             
+            {data.map(pcat =>   <li className="inner-li" id={pcat.parent_category.parent_category_id}>
+              <p className="first-li-p" > <Link className="pcat_li" to={{
+                pathname : `/${pcat.parent_category.parent_category_name}/courses/`,
+                state : {'pcat_id' : pcat.parent_category.parent_category_id}
+              }}>{pcat.parent_category.parent_category_name} </Link><i className="bx bxs-chevron-right"></i> </p>
                 <ul>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
+                {pcat.categories.map(cat => 
+                  <li id={cat.category.category_id}>
+                    <p className="first-li-p">{cat.category.category_name} <i className="bx bxs-chevron-right"></i> </p>
                   </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-    
+                )}
+
                 </ul>
               </li>
-              <li className="inner-li">
-              <p className="first-li-p">Development  <i className="bx bxs-chevron-right"></i> </p>
-                <ul>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-    
-                </ul>
-              </li>
-           
-              <li className="inner-li">
-              <p className="first-li-p">Development  <i className="bx bxs-chevron-right"></i> </p>
-                <ul>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-    
-                </ul>
-              </li>
-           
-              <li className="inner-li">
-              <p className="first-li-p">Development  <i className="bx bxs-chevron-right"></i> </p> 
-                <ul>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-    
-                </ul>
-              </li>
-           
-              <li className="inner-li">
-              <p className="first-li-p"> Development  <i className="bx bxs-chevron-right"></i> </p>
-                <ul>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-                  <li>
-                    <p className="first-li-p">Compter Science <i className="bx bxs-chevron-right"></i> </p>
-                  </li>
-    
-                </ul>
-              </li>
-           
-           
+            )}
+
               </ul>
+         
+         
           </div>
 
 
@@ -251,7 +189,7 @@ const Wrapper = () => {
          
             <ul className="nav navbar-nav p-0">
 
-{  token  &&       <li className="nav-item">
+{  token  &&       <li className="nav-item justify-content-evenly" style={{flexBasis : 'max-content'}}>
 
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -282,16 +220,16 @@ const Wrapper = () => {
                 </li>
               }  
 
-{  token == null &&  <li className="nav-item active  p-0" >
-                <a className="nav-link" href="#"><Link query={{ setToken: setToken }} className="nav-link" to="/login">Login</Link>  </a>   
+{  token == null &&  <li className="nav-item active  p-0" style={{flexBasis : 'max-content'}}>
+                <a className="nav-link" href="#"><Link query={{  setToken: setToken }} className="nav-link" to="/login">Login</Link>  </a>   
             </li>
            } 
-{   token == null &&      <li className="nav-item active signup-li  p-0">
+{   token == null &&      <li className="nav-item active signup-li  p-0" style={{flexBasis : 'max-content'}}>
             <a className="nav-link home-btn signup-link" href="#"><Link query={{ setToken: setToken }} className="nav-link signup-link" to="/signup">Signup</Link></a>
               
             </li>}
             
-{ token == null &&           <li className="nav-item active">
+{ token == null &&           <li className="nav-item active" style={{flexBasis : 'max-content'}}>
             <IconButton
             size="large"
             aria-label="show 17 new notifications"
