@@ -1,0 +1,36 @@
+.play-wrapper {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	position: absolute;
+	background: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-size: 2rem;
+	top: 80%;
+	cursor: pointer;
+	opacity: .7;
+	left: 50%;
+	transform: translateX(-56%);
+}
+
+.play-wrapper:hover{
+	opacity: 1;
+}
+
+.contianer{
+	max-width: 1350px !important;
+}
+
+
+.gridded-goals{
+	display: grid;
+}
+
+.gridded-goals {
+	display: grid;
+	grid-template-columns: 300px 300px;
+	grid-row-gap: 25px;
+}

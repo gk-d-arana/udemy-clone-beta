@@ -14,8 +14,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Register from '../auth/Register';
 import axios from 'axios';
 import {URL_ROOT} from '../../utils/js'
-
-
+import CourseContent from '../course/CourseContent';
+import ForgotPassword from '../auth/ForgotPassword';
 
 const Wrapper = () => {
    const instructor = useSelector(state => state.auth.instructor) || {}
@@ -247,7 +247,19 @@ const Wrapper = () => {
             </div>
         </nav>
 
+
+
+           {/*
+
+              Definig Routes
+           
+           */}
+
+
       <Route component={Home} path="/" exact/>
+
+
+     <Route component={CourseContent} path="/course" exact />
      
       <Route 
       component={
@@ -257,6 +269,8 @@ const Wrapper = () => {
         component={
           routeProps => <Register setToken={setToken} />} path="/signup" exact  />     
        
+       <Route component={ForgotPassword} path="/forgot_password" exact />
+
       <Footer />
       <div className="know-top"></div>
 
