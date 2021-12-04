@@ -13,6 +13,7 @@ import 'swiper/swiper.min.css'
 
 const CourseCarousel = ({pcatCourses, getRatingDiv}) => {
 
+
     return (
         <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -22,16 +23,14 @@ const CourseCarousel = ({pcatCourses, getRatingDiv}) => {
     >
       {pcatCourses.courses.map(pcatCourse => 
       <SwiperSlide id={pcatCourse.course_id}>
-      <Link to={{pathname: `/course`, query:{getRatingDiv:getRatingDiv} ,state: {
-        pcatCourse : pcatCourse,
-      }
+      <Link to={{pathname: `/course/${pcatCourse.course_name}/${pcatCourse.course_id}/`, 
         }} >
           <div className='card-img' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  pcatCourse.course_image}')`}}>
             </div>
                 
               <div className="card-body" >
                 <h5 className="card-title">{pcatCourse.course_name}</h5>
-                <div className="card-text"> {pcatCourse.course_description}
+                <div className="card-text"> {pcatCourse.course_subtitle}
                 <br />  
                 By Teacher: 
                 <span className="teacher-name" id="{{pcatCourse.course_instructor.user.id}">

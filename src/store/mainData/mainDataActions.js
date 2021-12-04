@@ -1,4 +1,4 @@
-import {SET_MAIN_DATA, SET_HOME_COURSES} from './mainDataTypes'
+import {SET_MAIN_DATA, SET_TOP_SELLING_COURSES} from './mainDataTypes'
 
 
 
@@ -11,9 +11,9 @@ export const setMainData = data => {
 }
 
 
-export const setHomeCourses = data => {
+export const setTopSellingCourses = data => {
     return {
-        type: SET_HOME_COURSES,
+        type: SET_TOP_SELLING_COURSES,
         payload: data
     }
 }

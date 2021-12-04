@@ -25,12 +25,57 @@
 }
 
 
-.gridded-goals{
-	display: grid;
-}
+
 
 .gridded-goals {
 	display: grid;
 	grid-template-columns: 300px 300px;
 	grid-row-gap: 25px;
 }
+
+
+
+.gridded-overview {
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-column-gap: 25px;
+}
+
+
+
+.breadcrumb-item+.breadcrumb-item::before{content:var(--bs-breadcrumb-divider,">") !important ;}
+
+.des-img {
+	position: absolute;
+	height: 111%;
+	left: 33%;
+	top: -37px;
+}
+
+
+.cxl{
+	max-width: 1300px;
+	margin: 0 auto;
+}
+
+.top-courses-h{
+	height: 180px;
+}
+
+.instructor-div .r1{
+	width: 50%;
+}
+
+.instruc-p-img{
+	width: 170px;
+	height: 170px;
+	border-radius: 50%;
+}
+
+.rev-col , .rev-col h1, .rev-col  h3{
+	color: red;
+}
+.h-div h5{
+	color: gray;
+}
+

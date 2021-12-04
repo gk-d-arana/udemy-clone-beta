@@ -1,25 +1,24 @@
 import {
     SET_MAIN_DATA,
-    SET_HOME_COURSES
+    SET_TOP_SELLING_COURSES
 }  from "./mainDataTypes"; 
 
 const initialState = {
     data : [],
-    homeCourses : []
+    topSellingCourses : []
 }
 
 
 
 const mainDataReducer = (state=initialState, action) => {
-    console.log(action.payload)
     switch(action.type){
         case SET_MAIN_DATA: return {
             ...state,
             data : action.payload
         }
-        case SET_HOME_COURSES: return {
+        case SET_TOP_SELLING_COURSES: return {
             ...state,
-            homeCourses : action.payload
+            topSellingCourses : action.payload
         }
         default: return state
     }

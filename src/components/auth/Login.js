@@ -5,6 +5,7 @@ import { useHistory } from 'react-router'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from 'react-router-dom'
+import { URL_ROOT } from '../../utils/js'
 
 function Login ({setToken}) {
 
@@ -36,35 +37,32 @@ function Login ({setToken}) {
 
         axios({
             method: 'POST',
-            url: 'http://localhost:8000/login_instructor/',
+            url: URL_ROOT + '/login_instructor/',
             headers: {
                 "Content-Type" : "application/json"
             },
             data: data
           }).then(res => {
+			console.log(res,"test")
               if (res.data.token) {
 				setToken(res.data.token)
-
 				localStorage.setItem('token', res.data.token)
-				let instruc = {
-					"user" :{
-					"username" : `${res.data.instructor.user.username}`,
-					"fisrt_name" : `${res.data.instructor.user.firstName}`,
-					"last_name" : `${res.data.instructor.user.lastName}`,
-					"email" : `${res.data.instructor.user.email}`
-					},
-					"bio" : `${res.data.instructor.bio}`,
-					"total_students": res.data.instructor.total_students,
-					"total_reviews": res.data.instructor.total_reviews,
-					"total_rate": res.data.instructor.total_rate,
-					"badges": `${res.data.instructor.badges}`,
-					"student_count": res.data.instructor.student_count ,
-					"profile_image" : `http://localhost:8000${res.data.instructor.profile_image}`
-				}
-				  
+								  
 				dispatch({
 					type : "SET_INSTRUCTOR_INFO",
-					payload : instruc
+					payload : {
+						"username" : `${res.data.instructor.user.username}` || "NON",
+						"fisrt_name" : `${res.data.instructor.user.firstName}` || "NON",
+						"last_name" : `${res.data.instructor.user.lastName}`  || "NON",
+						"email" : `${res.data.instructor.user.email}` || "NON@NON.NON",
+						"bio" : `${res.data.instructor.bio}` || "NON",
+						"total_students": res.data.instructor.total_students || 0,
+						"total_reviews": res.data.instructor.total_reviews || 0,
+						"total_rate": res.data.instructor.total_rate || 0,
+						"badges": `${res.data.instructor.badges}` || "NON",
+						"student_count": res.data.instructor.student_count || 0 ,
+						"profile_image" : `${URL_ROOT   +  res.data.instructor.profile_image}` || "NON"
+					}
 				  })
 				 // setInstructor(instruc)
                 history.push('/')      

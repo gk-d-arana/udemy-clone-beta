@@ -7,7 +7,7 @@ import { Login } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInstructorInfo } from '../../store/auth/authActions' 
 import CircularProgress from '@mui/material/CircularProgress';
-
+import { URL_ROOT } from '../../utils/js'
 
 function Register ({setToken}) {
 	const [isEmpty, setIsEmpty]  =useState(false)
@@ -62,7 +62,7 @@ function Register ({setToken}) {
         
         axios({
             method: 'POST',
-            url: "http://localhost:8000/register_instructor/",
+            url: URL_ROOT + "/register_instructor/",
             headers: {
                 "Content-Type" : "mulitpart/form-data"
             },
@@ -71,24 +71,21 @@ function Register ({setToken}) {
             if (res.data.token) {
                 localStorage.setItem('token', `${res.data.token}`)
                 setToken(res.data.token)
-              let instructor = {
-                 "user" : {
-					"username" : `${res.data.instructor.user.username}`,
-					"fisrt_name" : `${res.data.instructor.user.firstName}`,
-					"last_name" : `${res.data.instructor.user.lastName}`,
-					"email" : `${res.data.instructor.user.email}`
-                },
+              dispatch({
+                  type : "SET_INSTRUCTOR_INFO",
+                  payload :  {
+					"username" : `${username}`,
+					"fisrt_name" : `${firstName}`,
+					"last_name" : `${lastName}`,
+					"email" : `${email}`,
                   "bio" : bio,
                   "total_students": 0,
                   "total_reviews": 0,
                   "total_rate": 0,
                   "badges": "Best-Selling Instructor",
                   "student_count": 0 ,
-                  "profile_image" : `http://localhost:8000/${res.data.profile_image}`
+                  "profile_image" : `${URL_ROOT +  res.data.profile_image}`
               }
-              dispatch({
-                  type : "SET_INSTRUCTOR_INFO",
-                  payload : instructor
               }) 
               history.push('/')      
             }

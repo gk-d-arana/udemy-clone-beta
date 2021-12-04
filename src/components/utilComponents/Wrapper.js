@@ -31,9 +31,23 @@ const Wrapper = () => {
     }
   
     useEffect(() => {
+      axios({
+        method : 'GET',
+        url : URL_ROOT + '/course_by_selling_times',
+        headers : {
+          Authorization : `${localStorage.getItem('token')}`
+        }
+      }).then(res=>{
+        dispatch({
+          type : "SET_TOP_SELLING_COURSES",
+          payload : res.data
+        })
+      }).catch(err => {
+        console.log(err)
+      })
       if(localStorage.getItem('token') != null ){
         axios({
-          url : "http://localhost:8000/profile/",
+          url : URL_ROOT + "/profile/",
           method : "GET",
           headers : {
             Authorization : `${localStorage.getItem('token')}`
@@ -51,7 +65,7 @@ const Wrapper = () => {
             "total_rate": res.data.total_rate,
             "badges": `${res.data.badges}`,
             "student_count": res.data.student_count ,
-            "profile_image" : `http://localhost:8000${res.data.profile_image}`
+            "profile_image" : `${URL_ROOT +   res.data.profile_image}`
         }
           
         dispatch({
@@ -216,7 +230,7 @@ const Wrapper = () => {
                 </Badge>
               </IconButton>
               </Box>
-              <a href="#" className="nav-item username" onClick={toggleSideBar}>{ instructor.user ?  instructor.user.username : "Username"}</a>
+              <div style={{cursor:'pointer'}} className="nav-item username" onClick={toggleSideBar}>{ instructor.user ?  instructor.user.username : "Username"}</div>
                 </li>
               }  
 
@@ -259,7 +273,7 @@ const Wrapper = () => {
       <Route component={Home} path="/" exact/>
 
 
-     <Route component={CourseContent} path="/course" exact />
+     <Route component={CourseContent} path="/course/:course_name/:course_id"/>
      
       <Route 
       component={
