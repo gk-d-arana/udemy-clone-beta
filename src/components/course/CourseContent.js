@@ -13,12 +13,158 @@ import SendIcon from '@mui/icons-material/Send'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import StarBorder from '@mui/icons-material/StarBorder'
-import parse from 'html-react-parser'
 import axios from 'axios'
 import { useParams } from 'react-router-dom';
-import { getRatingDiv } from '../../pages/Home'
 import Divider from './assets/Path 32@2x.png'
 import { useSelector } from 'react-redux'
+import { LinearProgress } from '@mui/material';
+
+
+export const getRatingList = (ratings) => {
+  let ratingPercentage = [0, 0, 0, 0, 0]
+  for (let index = 0; index < ratings.length; index++) {
+    if(ratings[index].rating_value >= 0 && ratings[index].rating_value < 1) { 
+        ratingPercentage[0] += 1
+    }
+    if(ratings[index].rating_value >=1 && ratings[index].rating_value < 2) { 
+      ratingPercentage[1] += 1
+    }
+    if(ratings[index].rating_value >= 2 && ratings[index].rating_value < 3) { 
+      ratingPercentage[2] += 1
+    }
+    if(ratings[index].rating_value >= 3 && ratings[index].rating_value < 4) { 
+      ratingPercentage[3] += 1
+    }
+    if(ratings[index].rating_value >= 4 && ratings[index].rating_value <= 5) { 
+      ratingPercentage[4] += 1
+    }
+  }
+  for (let i = 0; i < ratingPercentage.length; i++) {
+    ratingPercentage[i] = ratingPercentage[i] * 100 /ratings.length
+  }
+  return ratingPercentage
+}
+
+
+
+
+export const getRatingDiv = (rating) => {
+                  
+  if (rating == 0){                           
+  return <span className="w-100">
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+    
+  if (rating > 0 && rating <= 0.5){                           
+  return <span className="w-100">
+      <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+
+
+  if (rating > 0.5 && rating <= 1){                           
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+    
+  if (rating > 1 && rating <= 1.5){                           
+  return <span className="w-100">
+    <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+    <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+
+  if (rating > 1.5 && rating <= 2){                           
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+    
+  if (rating > 2 && rating <= 2.5){                           
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+
+
+  if (rating > 2.5 && rating <= 3){                           
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+    
+  if (rating > 3 && rating <= 3.5){                           
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+
+  if (rating > 3.5 && rating <= 4){                           
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+
+  if (rating > 4 && rating <= 4.85){                           
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+ }     
+
+  if (rating > 4.8){                        
+  return <span className="w-100">
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+      <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
+  </span>
+  }
+}
+
+
+
 
 
 export const CourseContent = (props) => {
@@ -80,7 +226,7 @@ export const CourseContent = (props) => {
                     <p style={{color:'gold'}}>Best Seller</p>
                 <span style={{color:'red'}}>
                     <span style={{fontSize:'2rem'}}>{course.course_rate}</span>
-      {parse(`${getRatingDiv(course.course_rate) }`)}
+      {getRatingDiv(course.course_rate) }
 
                 </span>
                 <p>{course.course_students} Students </p>
@@ -226,7 +372,7 @@ export const CourseContent = (props) => {
 
       {/* Top Selling Courses  */}
 
-          <button type="button" className=" to-learn-btn">Students Also Bought</button>
+        <button type="button" className=" to-learn-btn">Students Also Bought</button>
 
         {topSellingCourses.map(tc =>{
           if(course_id == tc.course.course_id){return ""}
@@ -264,7 +410,11 @@ export const CourseContent = (props) => {
           </div>
           </Link>
         })}
-          
+        
+        
+
+        
+      
 
 
 
@@ -294,6 +444,11 @@ export const CourseContent = (props) => {
           <h5>{course.course_instructor.bio}</h5>
         
              </div>
+             <div  className='d-flex justify-content-end align-items-center w-100'>
+               <Link style={{color:"purple"}} to={"/instructor/"  + course.course_instructor.user.username+  "/" +  course.course_instructor.id }>
+                  Read More
+               </Link>
+             </div>
         </div>: ""}
         
 
@@ -303,36 +458,44 @@ export const CourseContent = (props) => {
         <div className='row container'>
             <div className='col-4 text-center rev-col'>
               <h1>{course.course_rate}</h1>
-{/*           {parse(getRatingDiv(course.course_rate))}
- */}              <h3>{ratings.length + "   "} Reviews</h3>
+           {getRatingDiv(course.course_rate)}
+           <h3>{ratings.length + "   "} Reviews</h3>
             </div>
 
-          <div className='col-7'>
-            <div className='d-flex justify-content-around align-items-center'>
-              <p>5 Stars</p>
-                <progress style={{color:'#F69F0C'}} value={50}></progress>
-              <p>90%</p>
+          <div className='col-8'>
+            {getRatingList(ratings).map( (e,key) =>  
+            <div className='d-flex justify-content-between align-items-center'>
+              <p>{key+1} Stars</p>
+                <progress max={100} style={{width:'300px'}} value={e}></progress>
+                
+              <p>{e}%</p>
             </div>
+            )}
           </div>
 
 
         </div>
 
       {/* Ratings */}
-<div className='gridded-goals'>
+<div className='gridded-goals2 my-4'>
+
           {ratings.map(rating=>
-            
-            <div className='' id={rating.rating_id}>
-              <div style={{height:'230px',backgroundPosition: 'center', 
-              backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  rating.instructor.profile_image}')`}}>
-            </div>
-               <h3>{rating.instructor.user.username}</h3>
-               <p>{rating.rating_content}</p>
-               {parse(getRatingDiv(rating.rating_value))}
+              <div  style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px'}} id={rating.rating_id} className='row r1 p-4'>
+              <div className='d-flex justify-content-between w-100 align-items-center'>
+                <div className='rating-p-img' style={{
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover', backgroundImage: `url('${URL_ROOT + rating.instructor.profile_image}')`
+                }}>
+                </div>
+                <h5>{rating.instructor.user.username}</h5>
+                <span className='col-3'>{getRatingDiv(rating.rating_value)}</span>     
+              </div>
+              <div className='my-3'>
+                <p>{rating.rating_content}</p>
+              </div>
             </div>
 
           )}
-
 </div>  
 
 ``

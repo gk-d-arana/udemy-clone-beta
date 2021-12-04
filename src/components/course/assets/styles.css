@@ -34,6 +34,11 @@
 }
 
 
+.gridded-goals2 {
+	display: grid;
+	grid-template-columns: 600px 600px;
+	grid-row-gap: 25px;
+}
 
 .gridded-overview {
 	display: grid;
@@ -71,6 +76,11 @@
 	height: 170px;
 	border-radius: 50%;
 }
+.rating-p-img{
+	height: 80px;
+	width: 80px;
+	border-radius: 50%;
+}
 
 .rev-col , .rev-col h1, .rev-col  h3{
 	color: red;
@@ -79,3 +89,14 @@
 	color: gray;
 }
 
+/* For Firefox */
+progress::-moz-progress-bar {
+	background: #F69F0C;
+	width: 300px;
+}
+
+/* For Chrome or Safari */
+progress::-webkit-progress-value {
+	background: #F69F0C;
+	width: 300px;
+} 
