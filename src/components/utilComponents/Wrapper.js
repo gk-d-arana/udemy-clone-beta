@@ -16,6 +16,17 @@ import axios from 'axios';
 import {URL_ROOT} from '../../utils/js'
 import CourseContent from '../course/CourseContent';
 import ForgotPassword from '../auth/ForgotPassword';
+import Profile from '../instructor/Profile';
+import Cart from '../payment/Cart';
+import Wishlist from '../instructor/Wishlist';
+import Checkout from '../payment/Checkout';
+import { HelpAndSupport } from '../static/HelpAndSupport';
+import { GetTheApp } from '../static/GetTheApp';
+import { PrivacyAndPolicy } from '../static/PrivacyAndPolicy';
+import { ContactUs } from '../static/ContactUs';
+import { AboutUs } from '../static/AboutUs'
+import { TeachWithUs } from '../static/TeachWithUs';
+import MyCourses from '../instructor/MyCourses';
 
 const Wrapper = () => {
    const instructor = useSelector(state => state.auth.instructor) || {}
@@ -101,14 +112,13 @@ const Wrapper = () => {
 		  		<a href="#" className="img logo rounded-circle mb-2" style={{backgroundImage: `url(${instructor.profile_image})`}}></a>
 	        <ul className="list-unstyled components mb-5">
 	          <li className="active">
-	            <a href="#homeSubmenu" id="dropdownMenuButton1" data-bs-toggle="dropdown" 
-              data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">Home</a>
+	            <Link to="/"  className="dropdown-toggle">Home</Link>
               </li>
 	          <li>
 	              <a href="#">Profile</a>
 	          </li>
             <li className="nav-item">
-            <a className="nav-link" href="#">My Courses</a>
+            <Link className="nav-link" to="/my_courses">My Courses</Link>
         </li>
             <li className="nav-item">
             <a className="nav-link" href="#">Messages</a>
@@ -206,11 +216,14 @@ const Wrapper = () => {
 {  token  &&       <li className="nav-item justify-content-evenly" style={{flexBasis : 'max-content'}}>
 
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                <Link to="/wishlist" style={{color:'gray'}}>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                   <Badge badgeContent={4} color="error">
                     <FavoriteBorderOutlined />
                   </Badge>
                 </IconButton>
+                </Link>
+                <Link style={{color:'gray'}} to="/cart">
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
@@ -220,6 +233,7 @@ const Wrapper = () => {
                     <ShoppingCartOutlinedIcon />
                   </Badge>
                 </IconButton>
+                </Link>
                 <IconButton
                 size="large"
                 aria-label="show 17 new notifications"
@@ -274,6 +288,20 @@ const Wrapper = () => {
 
 
      <Route component={CourseContent} path="/course/:course_name/:course_id"/>
+
+     <Route component={Profile} path="/instructor/:instructor_name/:instructor_id"/>
+    
+     <Route component={Cart} path="/cart"/>
+     <Route component={MyCourses} path="/my_courses"/>
+     
+     <Route component={Wishlist} path="/wishlist"/>
+     <Route component={Checkout} path="/checkout"/>
+     <Route component={HelpAndSupport} path="/help_and_support"/>
+     <Route component={PrivacyAndPolicy} path="/privacy_and_policy"/>
+     <Route component={GetTheApp} path="/get_the_app"/>
+     <Route component={ContactUs} path="/contact_us"/>
+     <Route component={AboutUs} path="/about_us"/>
+     <Route component={TeachWithUs} path="/teach_with_us"/>
      
       <Route 
       component={

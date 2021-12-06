@@ -1,6 +1,6 @@
 import React from 'react'
 import './assets/css/footer.css'
-
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (
@@ -12,23 +12,23 @@ const Footer = () => {
             <div className="col col-xl-3  col-2 col-md-6 col-lg-6 col-sm-6  col-12">
               <h1>CourseiT</h1>
               <ul>
-              <li><a href="#">Teach On CourseiT</a></li>
-            <li><a href="#">Get The App</a></li>
+              <li><Link to="/teach_with_us">Teach On CourseiT</Link></li>
+            <li><Link to="/get_the_app">Get The App</Link></li>
               </ul>
             </div>
             <div className="col col-xl-3 col-2 col-md-6 col-lg-6 col-sm-6  col-12">
             <h1>Terms Of Use</h1>
             <ul>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Help And Support</a></li>
+              <li><Link to="/privacy_and_policy">Privacy Policy</Link></li>
+              <li><Link to="help_and_support">Help And Support</Link></li>
             </ul>
           </div>
           
             <div className="col col-xl-3 col-md-6 col-lg-6 col-sm-6 col-12">
               <h1>Our Company</h1>
               <ul>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">About Us</a></li>
+                <li><Link to="/contact_us">Contact Us</Link></li>
+                <li><Link to="/about_us">About Us</Link></li>
 
               </ul>
             </div>
@@ -36,8 +36,9 @@ const Footer = () => {
               <h1>Follow Us</h1>
               <ul>
               <li>
-              <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png"/>
-              <img style={{marginLeft:10}} src="https://img.icons8.com/fluency/48/000000/instagram-new.png"/>
+              <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="facebook"/>
+              <img style={{marginLeft:10}} src="https://img.icons8.com/fluency/48/000000/instagram-new.png" alt="instagram"/>
+             
               </li>
               </ul>
             </div>

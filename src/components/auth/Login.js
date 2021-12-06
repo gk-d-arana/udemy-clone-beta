@@ -7,6 +7,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from 'react-router-dom'
 import { URL_ROOT } from '../../utils/js'
 
+
+
+export const viewPass = ()=>{
+	document.querySelector('.password-input').type == "text" ? document.querySelector('.password-input').type = "password" : document.querySelector('.password-input').type = "text" 
+}
+
 function Login ({setToken}) {
 
 	const [username, setUsername] = useState("")
@@ -90,12 +96,14 @@ function Login ({setToken}) {
 					<h2>Login To Your Account</h2>
 					<h4>Welcome Back!</h4>
 					<div  className="login-input-div">
-						<i className="fa fa-envelope"></i>
-						<input placeholder="Enter Your Email" className="login-input" value={username} onChange={(e)=>setUsername(e.target.value)}/>
+						<i className="fa fa-user"></i>
+						<input placeholder="Enter Your Username" className="login-input" value={username} onChange={(e)=>setUsername(e.target.value)}/>
 					</div>
 					<div className="login-input-div">
 					<i className="fa fa-lock"></i>
-					<input placeholder="Enter Your Password" className="login-input" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+					<input type="password" placeholder="Enter Your Password" className="login-input password-input" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+					<i className="fa fa-eye" style={{cursor:'pointer'}} onClick={()=>viewPass()}></i>
+					
 					</div>
 					{ notValidData && <p style={{color:'red'}}>Please Pass Valid Credentials</p>}
 					{ isEmpty &&  <p style={{color:'red'}}>Please Enter Required Info</p>}

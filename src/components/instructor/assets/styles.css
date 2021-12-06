@@ -1,0 +1,67 @@
+.div-1-instruc{
+    height: 400px;
+    width: 100%;
+    background-color: #CA5B5B;
+}
+
+
+
+.instruc-img {
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	border-radius: 50%;
+}
+
+.instrutor-main-info-div{
+    margin-top: 13rem;
+    font-size: 1.5rem;
+}
+
+.gridded-goals3 {
+	display: grid;
+	grid-template-columns: 300px 300px;
+	grid-row-gap: 25px;
+	grid-column-gap: 40px;
+}
+
+.gridded-goals2 {
+	display: grid;
+	grid-template-columns: 500px 500px;
+	grid-row-gap: 25px;
+}
+
+.card-head{
+	height: 200px;
+	display: block;
+}
+
+
+.cart-wrapper{
+    background-color: #F8ECEC;
+    height: 100vh !important;
+}
+
+
+
+.cart-img{
+    width: 500px;
+}
+.ct-c{
+    right: 5%;
+    top: 30%;
+}
+
+.remove-from-cart {
+	color: gray;
+	position: absolute;
+	right: -8.5rem;
+	top: -2.5rem;
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+.link-div a{
+    background-color: purple !important;
+    color: #fff;
+}

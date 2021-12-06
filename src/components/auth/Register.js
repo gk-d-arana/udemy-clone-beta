@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setInstructorInfo } from '../../store/auth/authActions' 
 import CircularProgress from '@mui/material/CircularProgress';
 import { URL_ROOT } from '../../utils/js'
+import { viewPass } from './Login'
 
 function Register ({setToken}) {
 	const [isEmpty, setIsEmpty]  =useState(false)
@@ -134,8 +135,10 @@ function Register ({setToken}) {
                     </div>
 					<div className="login-input-div">
 					<i className="fa fa-lock"></i>
-					<input placeholder="Enter Your Password" type="password" className="login-input" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
-					</div>
+					<input placeholder="Enter Your Password" type="password" className="login-input password-input" value={password} onChange={(e)=>setPassword(e.target.value)} required/>
+					<i className="fa fa-eye" style={{cursor:'pointer'}} onClick={()=>viewPass()}></i>
+					
+                    </div>
                     <div className="mb-3">
                         <label htmlFor="formFile" className="form-label profile-image-label">Choose Your Profile Image</label>
                         <input className="form-control profile-image" type="file" id="formFile" required/>

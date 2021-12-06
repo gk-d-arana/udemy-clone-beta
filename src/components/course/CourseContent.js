@@ -18,10 +18,14 @@ import { useParams } from 'react-router-dom';
 import Divider from './assets/Path 32@2x.png'
 import { useSelector } from 'react-redux'
 import { LinearProgress } from '@mui/material';
+import Tick from './assets/check (1)@2x.png'
+import { useDispatch } from 'react-redux'
+
 
 
 export const getRatingList = (ratings) => {
   let ratingPercentage = [0, 0, 0, 0, 0]
+  if(ratings.length === 0) return ratingPercentage
   for (let index = 0; index < ratings.length; index++) {
     if(ratings[index].rating_value >= 0 && ratings[index].rating_value < 1) { 
         ratingPercentage[0] += 1
@@ -174,10 +178,36 @@ export const CourseContent = (props) => {
     const [open, setOpen] = useState(true)
     const { course_id } = useParams();
     const [ratings, setRatings] = useState([])
-    const handleClick = () => {
-      setOpen(!open)
-    }
+    const [showAddToCart, setShowAddToCart] = useState(false)
+    const dispatch = useDispatch()
+
+    
   
+    const [expandedRows, setExpandedRows] = useState([]);
+
+    // State variable to keep track which row is currently expanded.
+    const [expandState, setExpandState] = useState({});
+  
+    /**
+     * This function gets called when show/hide link is clicked.
+     */
+    const handleExpandRow = (event, sectionId) => {
+      const currentExpandedRows = expandedRows;
+      const isRowExpanded = currentExpandedRows.includes(sectionId);
+  
+      let obj = {};
+      isRowExpanded ? (obj[sectionId] = false) :  (obj[sectionId] = true);
+      setExpandState(obj);
+  
+      // If the row is expanded, we are here to hide it. Hence remove
+      // it from the state variable. Otherwise add to it.
+      const newExpandedRows = isRowExpanded ?
+            currentExpandedRows.filter(id => id !== sectionId) :
+            currentExpandedRows.concat(sectionId);
+  
+      setExpandedRows(newExpandedRows);
+    }
+    
     const [inWishlist, setInWishlist] = useState(true)
     useEffect(()=>{
         window.scrollByLines(-window.scrollY)
@@ -201,6 +231,111 @@ export const CourseContent = (props) => {
         })
       
     }, [course_id])
+
+
+    const addToCart = () => {
+      const data = JSON.stringify({
+        course_id : course_id
+      })
+
+      axios({
+        method:'POST',
+        url : URL_ROOT + '/cart_manager/',
+        headers : {
+          "Authorization" : `${localStorage.getItem('token')}`,
+          "Content-Type" : "application/json"
+        },
+        data : data
+      }).then(res => { 
+        console.log(res.data)
+        setInCart(true)
+        setShowAddToCart(true)
+      }).catch(err => {
+         console.log(err)
+      })
+    } 
+
+
+    const addToWishlist = courseId => {
+      const data = JSON.stringify({
+        course_id : courseId
+      })
+       axios({
+        method:'POST',
+        url : URL_ROOT + '/manage_wishlist/',
+        headers : {
+          "Authorization" : `${localStorage.getItem('token')}`,
+          "Content-Type" : "application/json"
+        },
+        data : data
+      }).then(res => {
+        console.log(res)
+        setInWishlist(true)
+      }).catch(err => console.log(err )) 
+  }
+
+    const removeFromWishlist = courseId => {
+      const data = JSON.stringify({
+        course_id : courseId
+      })
+       axios({
+        method:'DELETE',
+        url : URL_ROOT + '/manage_wishlist/',
+        headers : {
+          "Authorization" : `${localStorage.getItem('token')}`,
+          "Content-Type" : "application/json"
+        },
+        data : data
+      }).then(res => {
+        console.log(res)
+        setInWishlist(false)
+      }).catch(err => console.log(err )) 
+  }
+
+
+
+  const addTcToWishlist = courseId => {
+    const data = JSON.stringify({
+      course_id : courseId
+    })
+     axios({
+      method:'POST',
+      url : URL_ROOT + '/manage_wishlist/',
+      headers : {
+        "Authorization" : `${localStorage.getItem('token')}`,
+        "Content-Type" : "application/json"
+      },
+      data : data
+    }).then(res => {
+      console.log(res)
+      dispatch({
+        type : 'COURSE_FAVOURITE',
+        payload : courseId
+      })
+    }).catch(err => console.log(err )) 
+}
+
+  const removeTcFromWishlist = courseId => {
+    const data = JSON.stringify({
+      course_id : courseId
+    })
+     axios({
+      method:'DELETE',
+      url : URL_ROOT + '/manage_wishlist/',
+      headers : {
+        "Authorization" : `${localStorage.getItem('token')}`,
+        "Content-Type" : "application/json"
+      },
+      data : data
+    }).then(res => {
+      console.log(res)
+      dispatch({
+        type : 'COURSE_FAVOURITE',
+        payload : courseId
+      })
+    }).catch(err => console.log(err )) 
+}
+
     return ( 
         <div className='cxl my-3'>
             <div className='wrapper1 d-flex'>
@@ -276,20 +411,24 @@ export const CourseContent = (props) => {
                       </Link>
                     </div>
                   <div className="card-body text-center">
-                    {inCart? <><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Course</div><br /></> : 
+                    {inCart? <Link to="/cart"><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Cart</div><br /></Link> : 
                     <><div>
-                                <div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
+                                <div onClick={()=> addToCart()} className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
                                 <div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Buy Now</div> <br />
                                 <a href='#' style={{color:'#686EAD'}}>Apply Coupon</a><br />
                     <p className="btn color-gold">{course.is_free? 'Free Course' : course.course_price + "SP"}</p><br />
                             </div></>}
                     
-                            <div className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
-                        {inWishlist ?
-                        <><i className='bx bxs-heart' ></i><br />Remove From Favourite</>
-                        :<><i className='bx bx-heart' color='#FB0000' style={{fontSize:'2rem'}}></i><br/>Add To Favourite</>
+                            {inWishlist ?
+             <div onClick={()=>removeFromWishlist(course.course_id)} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+             color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
+              <i  className='bx bxs-heart' ></i><br />Remove From Favourite
+                        </div>
+                 :<div onClick={()=>addToWishlist(course.course_id)} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+                 color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
+                        <i  className='bx bx-heart' color='#FB0000' style={{fontSize:'2rem'}}></i><br/>Add To Favourite
+                        </div>
                         }
-                    </div> 
 
                   </div>
                 </div>
@@ -326,14 +465,14 @@ export const CourseContent = (props) => {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton onClick={(e)=>handleExpandRow(e,cs.section_id)}>
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
         <ListItemText primary={cs.section_name} style={{color:'#1080D4', fontSize:'1.4rem'}}/>
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {open && expandedRows.includes(cs.section_id) ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={open && expandedRows.includes(cs.section_id)} timeout="auto" unmountOnExit>
         {cs.section_videos? cs.section_videos.map(video => 
         <List component="div" >
           <ListItemButton sx={{ pl: 4 }}>
@@ -376,11 +515,14 @@ export const CourseContent = (props) => {
 
         {topSellingCourses.map(tc =>{
           if(course_id == tc.course.course_id){return ""}
-          return<Link id={tc.course.course_id} to={`/course/${tc.course.course_name}/${tc.course.course_id}/`}><div className='row top-courses-h my-3' id={tc.course.course_id}>
+          return<>
+            <div className='row top-courses-h my-3' id={tc.course.course_id}>
             <div className='col-3 h-100 w-100' style={{backgroundPosition: 'center', 
               backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  tc.course.course_image}')`}}>
             </div>
             <div className='col-7'>
+          <Link id={tc.course.course_id} to={`/course/${tc.course.course_name}/${tc.course.course_id}/`}>
+
               <div className='d-flex justify-content-between'>
                 <div style={{color:'#1080D4'}}>
                    <h4>{tc.course.course_name}</h4> 
@@ -389,7 +531,8 @@ export const CourseContent = (props) => {
                 <h5 style={{color:'gray'}}><i className='bx bx-people'></i>{tc.course.course_students}Students</h5>
                 {tc.in_my_learning ?  <>
                 <div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Course</div><br /></> :
-                <><p className="btn" style={{color:'#1080D4'}}>{tc.course.is_free ? 'Free Course' : tc.course.course_price + "SP"}</p><br /></>
+                <><p className="btn" style={{color:'#1080D4', margin:'0'}}>
+                  {tc.course.is_free ? 'Free Course' : tc.course.course_price + "SP"}</p><br /></>
                                   }
               </div>
 
@@ -398,17 +541,27 @@ export const CourseContent = (props) => {
           <button type="button" style={{fontSize:'.8rem', margin:'0'}} className=" to-learn-btn">{tc.course.badges}</button>
                             <p style={{color:'red'}}>{tc.course.course_rate} <i className='bx bxs-star'></i></p>
               </div>
+              </Link>
             </div>
             <div className='col-2'>
-            <div className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
-                        {tc.in_wishlist ?
-                        <><i className='bx bxs-heart' ></i><br />Remove From Favourite</>
-                        :<><i className='bx bx-heart' color='#FB0000' style={{fontSize:'2rem'}}></i><br/>Add To Favourite</>
+            {tc.in_wishlist ?
+             <div onClick={()=>{
+              tc.in_wishlist = false
+              removeTcFromWishlist(tc.course.course_id)
+              }
+            } className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+             color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
+              <i  className='bx bxs-heart' ></i><br />Remove From Favourite
+                        </div>
+                 :<div onClick={()=>{tc.in_wishlist = true;addTcToWishlist(tc.course.course_id)}} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+                 color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
+                        <i  className='bx bx-heart' color='#FB0000' style={{fontSize:'2rem'}}></i><br/>Add To Favourite
+                        </div>
                         }
                     </div> 
             </div>
-          </div>
-          </Link>
+          
+          </>
         })}
         
         
@@ -498,7 +651,31 @@ export const CourseContent = (props) => {
           )}
 </div>  
 
-``
+
+
+      {/*  Added To Cart  */}
+                { showAddToCart && <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Launch demo modal
+                </button>}
+                <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Added To Cart</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body d-flex justify-content-between align-items-center">
+                        <img src={Tick} alt="tick" />
+                        <div className='col-4' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  course.course_image}')`}}>
+                       </div>
+                       <h4>{course.course_name}</h4>
+                       <Link to="/cart"><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
+                       </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
             </div>
 
 

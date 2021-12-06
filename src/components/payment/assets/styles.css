@@ -1,0 +1,36 @@
+.cart-wrapper{
+    background-color: #F8ECEC;
+}
+
+.right-s-card{
+    position: relative;
+    top: 30%;
+    left: 1%;
+}
+
+
+.to-check:hover{
+    color:#fff !important;
+}
+
+.cart-img{
+    width: 500px;
+}
+.ct-c{
+    right: 5%;
+    top: 30%;
+}
+
+.remove-from-cart {
+	color: gray;
+	position: absolute;
+	right: -8.5rem;
+	top: -2.5rem;
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+.link-div a{
+    background-color: purple !important;
+    color: #fff;
+}

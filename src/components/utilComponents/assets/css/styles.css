@@ -8518,3 +8518,8 @@ a{
 .username:hover{
   color: #fff;
 }
+
+
+.swiper-slide{
+  margin-right:20px !important;
+}

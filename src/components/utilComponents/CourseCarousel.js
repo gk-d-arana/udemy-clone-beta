@@ -8,7 +8,7 @@ import 'swiper/swiper-bundle.min.css'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // swiper core styles
 import 'swiper/swiper.min.css'
-
+import './assets/css/carouselStyles.css'
 
 
 const CourseCarousel = ({pcatCourses, getRatingDiv}) => {
@@ -28,16 +28,16 @@ const CourseCarousel = ({pcatCourses, getRatingDiv}) => {
           <div className='card-img' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  pcatCourse.course_image}')`}}>
             </div>
                 
-              <div className="card-body" >
+              <div className="card-body" style={{color:'#000'}}>
                 <h5 className="card-title">{pcatCourse.course_name}</h5>
                 <div className="card-text"> {pcatCourse.course_subtitle}
                 <br />  
                 By Teacher: 
-                <span className="teacher-name" id="{{pcatCourse.course_instructor.user.id}">
+                <span style={{color:'#000'}} className="teacher-name" id={pcatCourse.course_instructor.user.id}>
                  {pcatCourse.course_instructor.user.username}
                  </span>
                   <div className="rating-div"><br />
-                {parse(getRatingDiv(pcatCourse.course_rate))}
+                  {pcatCourse.course_rate} {parse(getRatingDiv(pcatCourse.course_rate))}
                   </div>
                 </div>
                 <a href="#" className="btn color-gold">{pcatCourse.is_free? 'Free Course' : pcatCourse.course_price + "SP"}</a>

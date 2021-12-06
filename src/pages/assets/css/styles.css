@@ -11,9 +11,39 @@
 
 
 .home-img{
-    height: 400px;
+    height: 650px;
+	background-position: center;
+	background-size: cover;
 }
 
+.h4-white {
+	color: #fff !important;
+	position: relative;
+	top: 30%;
+	width: fit-content;
+	left: 2%;
+    border: none;
+}
+.cx-1{
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.div-1-home{
+    background-image: url('../images/Path\ 2.png');
+    height: 400px;
+    width: 100%;
+    background-size: cover;
+    margin: 0 auto;
+}
+
+.p-div-1{
+        position: relative;
+        top: 14%;
+        width: 80%;
+        line-height: 2rem;
+        margin: 20px 40px;
+}
 
 .to-learn-btn, .to-learn-btn:hover, .to-learn-btn:focus{
     font-size: 1.3rem ;
