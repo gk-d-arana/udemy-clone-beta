@@ -29,7 +29,6 @@ h4{
     margin: 20px;
     display: flex;
     align-items: center;
-
 }
 
 .login-input {
@@ -80,3 +79,16 @@ h4{
 	text-align: start;
 	margin-left: 20px;
 }
+
+
+/* For Firefox */
+progress::-moz-progress-bar {
+	background: #686EAD !important;
+	width: 300px;
+}
+
+/* For Chrome or Safari */
+progress::-webkit-progress-value {
+	background: #686EAD !important;
+	width: 300px;
+} 

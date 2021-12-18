@@ -20,7 +20,7 @@ const ForgotPassword = () => {
 		if (localStorage.getItem('token') != null) {
 			history.push('/')
 		}
-	}, [])
+	}, [history])
     const validateEmail = (email) => {
         var re = /\S+@\S+\.\S+/;
         return re.test(email);

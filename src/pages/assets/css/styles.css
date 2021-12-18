@@ -38,11 +38,9 @@
 }
 
 .p-div-1{
-        position: relative;
-        top: 14%;
-        width: 80%;
-        line-height: 2rem;
-        margin: 20px 40px;
+    width: 80%;
+    line-height: 2rem;
+    margin: 20px 40px;
 }
 
 .to-learn-btn, .to-learn-btn:hover, .to-learn-btn:focus{
@@ -115,3 +113,29 @@
     text-align: start;
 }
 
+.course-home{
+    height: 250px;
+}
+
+
+.course-h {
+	color: rgb(0, 0, 0);
+	overflow: hidden;
+	width: 600px;
+	height: 94px;
+}
+
+
+.gridded-goals-h{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+.gridded-goals-h2{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}

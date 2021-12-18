@@ -10,7 +10,7 @@ import { URL_ROOT } from '../../utils/js'
 
 
 export const viewPass = ()=>{
-	document.querySelector('.password-input').type == "text" ? document.querySelector('.password-input').type = "password" : document.querySelector('.password-input').type = "text" 
+	document.querySelector('.password-input').type ==="text" ? document.querySelector('.password-input').type = "password" : document.querySelector('.password-input').type = "text" 
 }
 
 function Login ({setToken}) {
@@ -26,12 +26,12 @@ function Login ({setToken}) {
 		if (localStorage.getItem('token') != null) {
 			history.push('/')
 		}
-	}, [])
+	}, [history])
 	
 	const handleLoginBtn = (e) => {
 		setLoading(false)
 		setNotValidData(false)
-		if(username == "" ||  password == ""){
+		if(username ==="" ||  password ===""){
 			setIsEmpty(true)
 			return
 		}
@@ -71,14 +71,26 @@ function Login ({setToken}) {
 					}
 				  })
 				 // setInstructor(instruc)
-                history.push('/')      
+				 axios({
+					method : 'GET',
+					url :URL_ROOT + '/my_learnings/',
+					headers : {
+						Authorization : `${localStorage.getItem('token')}`
+					  }
+				}).then(res => {
+				  dispatch({
+					type: 'SET_MY_COURSES',
+					payload : res.data.courses
+				  })
+				  history.push('/')     
+				}).catch(err => console.log(err))
               }
 
           })
           .catch(err => {
 				setLoading(false)
 				if(err.response){
-					if(err.response.data.message == "Pleas Pass Valid Credentials"){
+					if(err.response.data.message ==="Pleas Pass Valid Credentials"){
 						setNotValidData(true)
 					}
 					else{
@@ -97,11 +109,12 @@ function Login ({setToken}) {
 					<h4>Welcome Back!</h4>
 					<div  className="login-input-div">
 						<i className="fa fa-user"></i>
-						<input placeholder="Enter Your Username" className="login-input" value={username} onChange={(e)=>setUsername(e.target.value)}/>
+						<input style={{border:'none'}} placeholder="Enter Your Username" className="login-input" value={username} 
+						onChange={(e)=>setUsername(e.target.value)}/>
 					</div>
 					<div className="login-input-div">
 					<i className="fa fa-lock"></i>
-					<input type="password" placeholder="Enter Your Password" className="login-input password-input" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+					<input style={{border:'none'}} type="password" placeholder="Enter Your Password" className="login-input password-input" value={password} onChange={(e)=>setPassword(e.target.value)}/>
 					<i className="fa fa-eye" style={{cursor:'pointer'}} onClick={()=>viewPass()}></i>
 					
 					</div>
@@ -116,7 +129,7 @@ function Login ({setToken}) {
 						 <Link to={{pathname : "/forgot_password" ,query:{ setToken: setToken } }}> Forgot Password </Link>
 
 						 <br/>
-						<span>{"Dont Have An Account"}</span> <a href="#">Sign Up</a><br/>
+						<span>{"Dont Have An Account"}</span> <Link to={{pathname : "/signup" ,query:{ setToken: setToken } }}>Sign Up</Link><br/>
 					</div>
 				</div>	
 		</div>
@@ -127,15 +140,7 @@ function Login ({setToken}) {
 
 
 
-const mapStateToProps = (state) =>({
 
-})
-
-const mapDispatchToProps = dispatch => {
-    return {
-		handleLogin: (username, password, history, setNotValidData) => dispatch()
-	}
-}
 
 //export default connect(mapStateToProps, mapDispatchToProps)(Login)
 export default Login;

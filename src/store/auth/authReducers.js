@@ -21,9 +21,9 @@ const authReducer = (state=initialState, action) => {
             instructor : {
                 "user": {
                     "username" : `${action.payload.username}`,
-                    "fisrt_name" : `${action.payload.firstName}`,
+                    "first_name" : `${action.payload.firstName}`,
                     "last_name" : `${action.payload.lastName}`,
-                    "email" : `${action.payload. email}`,
+                    "email" : `${action.payload.email}`,
                 },
                 "bio" : `${action.payload.bio}`,
                 "total_students": action.payload.total_students,
@@ -31,6 +31,9 @@ const authReducer = (state=initialState, action) => {
                 "total_rate": action.payload.total_rate,
                 "badges": `${action.payload.badges}`,
                 "student_count": action.payload.student_count,
+                'facebook_link' : action.payload.facebook_link,
+                'job_role' : action.payload.job_role,
+
                 "profile_image" : `${action.payload.profile_image}`
             }
         }

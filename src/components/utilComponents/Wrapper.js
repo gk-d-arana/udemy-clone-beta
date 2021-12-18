@@ -27,6 +27,10 @@ import { ContactUs } from '../static/ContactUs';
 import { AboutUs } from '../static/AboutUs'
 import { TeachWithUs } from '../static/TeachWithUs';
 import MyCourses from '../instructor/MyCourses';
+import CourseDetails from '../course/CourseDetails';
+import Account from '../instructor/Account';
+import Notifications from '../instructor/Notifications';
+import CourseByPC from '../../pages/CourseByPC';
 
 const Wrapper = () => {
    const instructor = useSelector(state => state.auth.instructor) || {}
@@ -37,11 +41,13 @@ const Wrapper = () => {
     const handleLogout = () => {
       setToken(null)
       localStorage.removeItem('token')
-      let sideBar = document.querySelector('#sidebar')
-      sideBar.classList.add('active')
+      window.location.reload()
+
     }
   
     useEffect(() => {
+      window.scrollByLines(-window.scrollY)
+
       axios({
         method : 'GET',
         url : URL_ROOT + '/course_by_selling_times',
@@ -67,8 +73,8 @@ const Wrapper = () => {
         
           let instruc = {
             "username" : `${res.data.user.username}`,
-            "fisrt_name" : `${res.data.user.first_name}`,
-            "last_name" : `${res.data.user.last_name}`,
+            "firstName" : `${res.data.user.first_name}`,
+            "lastName" : `${res.data.user.last_name}`,
             "email" : `${res.data.user.email}`,
             "bio" : `${res.data.bio}`,
             "total_students": res.data.total_students,
@@ -76,6 +82,8 @@ const Wrapper = () => {
             "total_rate": res.data.total_rate,
             "badges": `${res.data.badges}`,
             "student_count": res.data.student_count ,
+            'facebook_link' : res.data.facebook_link,
+            'job_role' : res.data.job_role,
             "profile_image" : `${URL_ROOT +   res.data.profile_image}`
         }
           
@@ -87,6 +95,20 @@ const Wrapper = () => {
         
         
         }).catch(e => console.log(e))
+
+        axios({
+          method : 'GET',
+          url :URL_ROOT + '/my_learnings/',
+          headers : {
+              Authorization : `${localStorage.getItem('token')}`
+            }
+      }).then(res => {
+        dispatch({
+          type: 'SET_MY_COURSES',
+          payload : res.data.courses
+        })
+      }).catch(err => console.log(err))
+      
       }
 
       axios({
@@ -107,217 +129,220 @@ const Wrapper = () => {
     return (
     
       <div className="wrapper d-flex align-items-stretch">
-			<nav id="sidebar" className="active">
-				<div className="p-4 pt-5">
-		  		<a href="#" className="img logo rounded-circle mb-2" style={{backgroundImage: `url(${instructor.profile_image})`}}></a>
-	        <ul className="list-unstyled components mb-5">
-	          <li className="active">
-	            <Link to="/"  className="dropdown-toggle">Home</Link>
-              </li>
-	          <li>
-	              <a href="#">Profile</a>
-	          </li>
+          <nav id="sidebar" className="active">
+            <div className="p-4 pt-5">
+              <span href="#" className="img logo rounded-circle mb-2" style={{backgroundImage: `url(${instructor.profile_image})`}}></span>
+              <ul className="list-unstyled components mb-5">
+                <li className="active">
+                  <Link to="/"  className="dropdown-toggle">Home</Link>
+                  </li>
+                <li>
+                    <Link to="/edit_profile">Profile</Link>
+                </li>
+                <li className="nav-item">
+                <Link className="nav-link" to="/my_courses">My Courses</Link>
+            </li>
+                <li className="nav-item">
+                <a className="nav-link" href="#">Messages</a>
+            </li>
             <li className="nav-item">
-            <Link className="nav-link" to="/my_courses">My Courses</Link>
-        </li>
-            <li className="nav-item">
-            <a className="nav-link" href="#">Messages</a>
+            <a className="nav-link" href="#">Account Settings</a>
         </li>
         <li className="nav-item">
-        <a className="nav-link" href="#">Account Settings</a>
+        <a className="nav-link" href="#">Credits</a>
     </li>
-    <li className="nav-item">
-    <a className="nav-link" href="#">Credits</a>
-</li>
 
-	          <li>
-              <a href="#">Notifications</a>
-	          </li>
-            <li onClick={handleLogout} style={{marginTop: 24,
-              border: "none"
-            }}>
-            <a href="#" style={{border: "none"}}>Logout</a></li>
-	        </ul>
+                <li>
+                  <a href="#">Notifications</a>
+                </li>
+                <li onClick={handleLogout} style={{marginTop: 24,
+                  border: "none"
+                }}>
+                <a href="#" style={{border: "none"}}>Logout</a></li>
+              </ul>
 
 
-	      </div>
-    	</nav>
+            </div>
+          </nav>
 
-      <div id="content" className="p-4">
+          <div id="content" className="p-4">
 
-        <nav className="navbar navbar-expand-lg navbar-light">
-          <div className="container-fluid">
-  
-           <Link to="/">
-           <a href="#">
-              <h1>
-                <span style={{color:'blue'}}>C</span>
-                <span style={{color:'red'}}>o</span>
-                <span>u</span>
-                <span>r</span>
-                <span>s</span>
-                <span>e</span>
-                <span>i</span>
-                <span style={{color:'blue'}}>T</span>
-              </h1>
-            </a>   
-            </Link>
+            <nav className="navbar navbar-expand-lg navbar-light">
+              <div className="container-fluid">
+      
+              <Link className='text-center' to="/">
+                  <h3>
+                    <i>
+                      E
+                      <span style={{color:'red'}}>O</span>
+                      E
+                    </i>
+                  </h3>
+                  <h6 style={{color:'#000'}}>
+                    <i style={{paddingRight:'3px', color:'#1080D4'}}>E</i>mpire
+                    <i style={{paddingRight:'3px', color:'red'}}>O</i>nline 
+                    <i style={{paddingRight:'3px', color:'#1080D4'}}>E</i>ducation
+                  </h6>
+                </Link>
 
-            <div className="dropdown">
-            <h3 className="dropbtn">
-            Categories
-            <i className='bx bxs-chevron-down'></i>
-  
-            </h3>
-           
-           
-            <ul className="dropdown-content">
-             
-            {data.map(pcat =>   <li className="inner-li" id={pcat.parent_category.parent_category_id}>
-              <p className="first-li-p" > <Link className="pcat_li" to={{
-                pathname : `/${pcat.parent_category.parent_category_name}/courses/`,
-                state : {'pcat_id' : pcat.parent_category.parent_category_id}
-              }}>{pcat.parent_category.parent_category_name} </Link><i className="bx bxs-chevron-right"></i> </p>
-                <ul>
-                {pcat.categories.map(cat => 
-                  <li id={cat.category.category_id}>
-                    <p className="first-li-p">{cat.category.category_name} <i className="bx bxs-chevron-right"></i> </p>
+                <div className="dropdown">
+                <h3 className="dropbtn">
+                Categories
+                <i className='bx bxs-chevron-down'></i>
+      
+                </h3>
+              
+              
+                <ul className="dropdown-content">
+                
+                {data.map(pcat =>   <li className="inner-li" id={pcat.parent_category.parent_category_id} key={pcat.parent_category.parent_category_id}>
+                  <p className="first-li-p" > <Link className="pcat_li" to={{
+                    pathname : `/${pcat.parent_category.parent_category_id}/${pcat.parent_category.parent_category_name}/courses/`,
+                    state : {'pcat_id' : pcat.parent_category.parent_category_id}
+                  }}>{pcat.parent_category.parent_category_name} </Link><i className="bx bxs-chevron-right"></i> </p>
+                    <ul>
+                    {pcat.categories.map(cat => 
+                      <li id={cat.category.category_id} key={cat.category.category_id}>
+                        <p className="first-li-p">{cat.category.category_name} <i className="bx bxs-chevron-right"></i> </p>
+                      </li>
+                    )}
+
+                    </ul>
                   </li>
                 )}
 
-                </ul>
-              </li>
-            )}
-
-              </ul>
-         
-         
-          </div>
+                  </ul>
+            
+            
+              </div>
 
 
 
-            <div className="input-field mx-4 choices-text-preset-values-div">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-              </svg>
-              <input className="form-control w-650" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
-          </div>
+                <div className="input-field mx-4 choices-text-preset-values-div">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                  </svg>
+                  <input className="form-control w-650" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
+              </div>
 
-            <button className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i className="fa fa-bars"></i>
-            </button>
-          
-          
-            <div className="collapse navbar-collapse w-270 snd_nav snd_nav1" id="navbarSupportedContent">
-         
-         
-            <ul className="nav navbar-nav p-0">
+                <button className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i className="fa fa-bars"></i>
+                </button>
+              
+              
+                <div className="collapse navbar-collapse w-270 snd_nav snd_nav1" id="navbarSupportedContent">
+            
+            
+                <ul className="nav navbar-nav p-0">
 
-{  token  &&       <li className="nav-item justify-content-evenly" style={{flexBasis : 'max-content'}}>
+    {  token  &&       <li className="nav-item justify-content-evenly" style={{flexBasis : 'max-content'}}>
 
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <Link to="/wishlist" style={{color:'gray'}}>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                  <Badge badgeContent={4} color="error">
-                    <FavoriteBorderOutlined />
-                  </Badge>
-                </IconButton>
-                </Link>
-                <Link style={{color:'gray'}} to="/cart">
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                >
-                  <Badge badgeContent={17} color="error">
-                    <ShoppingCartOutlinedIcon />
-                  </Badge>
-                </IconButton>
-                </Link>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Link to="/wishlist" style={{color:'gray'}}>
+                    <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                      <Badge badgeContent={4} color="error">
+                        <FavoriteBorderOutlined />
+                      </Badge>
+                    </IconButton>
+                    </Link>
+                    <Link style={{color:'gray'}} to="/cart">
+                    <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="inherit"
+                    >
+                      <Badge badgeContent={17} color="error">
+                        <ShoppingCartOutlinedIcon />
+                      </Badge>
+                    </IconButton>
+                    </Link>
+                    <Link style={{color:'gray'}} to="/notifications">
+                    <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                  >
+                    <Badge badgeContent={17} color="error">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  </Link>
+                  </Box>
+                  <div style={{cursor:'pointer'}} className="nav-item username" onClick={toggleSideBar}>{ instructor.user ?  instructor.user.username : "Username"}</div>
+                    </li>
+                  }  
+
+    {  token == null &&  <li className="nav-item active  p-0" style={{flexBasis : 'max-content'}}>
+                    <a className="nav-link" href="#"><Link query={{  setToken: setToken }} className="nav-link" to="/login">Login</Link>  </a>   
+                </li>
+              } 
+    {   token == null &&      <li className="nav-item active signup-li  p-0" style={{flexBasis : 'max-content'}}>
+                <a className="nav-link home-btn signup-link" href="#"><Link query={{ setToken: setToken }} className="nav-link signup-link" to="/signup">Signup</Link></a>
+                  
+                </li>}
+                
+    { token == null &&           <li className="nav-item active" style={{flexBasis : 'max-content'}}>
                 <IconButton
                 size="large"
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
-                <Badge badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
+                  <LanguageIcon />
+
               </IconButton>
-              </Box>
-              <div style={{cursor:'pointer'}} className="nav-item username" onClick={toggleSideBar}>{ instructor.user ?  instructor.user.username : "Username"}</div>
-                </li>
-              }  
-
-{  token == null &&  <li className="nav-item active  p-0" style={{flexBasis : 'max-content'}}>
-                <a className="nav-link" href="#"><Link query={{  setToken: setToken }} className="nav-link" to="/login">Login</Link>  </a>   
-            </li>
-           } 
-{   token == null &&      <li className="nav-item active signup-li  p-0" style={{flexBasis : 'max-content'}}>
-            <a className="nav-link home-btn signup-link" href="#"><Link query={{ setToken: setToken }} className="nav-link signup-link" to="/signup">Signup</Link></a>
+                </li>}
+                  
+                
+                </ul>
+                </div>
               
-            </li>}
-            
-{ token == null &&           <li className="nav-item active" style={{flexBasis : 'max-content'}}>
-            <IconButton
-            size="large"
-            aria-label="show 17 new notifications"
-            color="inherit"
-          >
-              <LanguageIcon />
+                </div>
+            </nav>
 
-          </IconButton>
-            </li>}
+
+
+              {/*
+
+                  Definig Routes
               
-            
-            </ul>
-            </div>
+              */}
+
+
+          <Route component={Home} path="/" exact/>
+        <Route component={CourseDetails} path="/course/:course_name/:course_id"/>
+        <Route component={CourseContent} path="/:course_name/:course_id/course_content"/>
+        <Route component={CourseByPC} path="/:obj_id/:obj_name/courses"/>
+
+        <Route component={Profile} path="/instructor/:instructor_name/:instructor_id"/>
+        <Route component={Cart} path="/cart"/>
+        <Route component={MyCourses} path="/my_courses"/>
+        <Route component={Wishlist} path="/wishlist"/>
+        <Route component={Checkout} path="/checkout"/>
+        <Route component={HelpAndSupport} path="/help_and_support"/>
+        <Route component={PrivacyAndPolicy} path="/privacy_and_policy"/>
+        <Route component={GetTheApp} path="/get_the_app"/>
+        <Route component={ContactUs} path="/contact_us"/>
+        <Route component={AboutUs} path="/about_us"/>
+        <Route component={TeachWithUs} path="/teach_with_us"/>
+        <Route component={Account} path="/edit_profile"/>
+        <Route component={Notifications} path="/notifications"/>
+        
+        
+          <Route 
+          component={
+            routeProps => <Login setToken={setToken} />} path="/login" exact  />     
           
-            </div>
-        </nav>
+            <Route 
+            component={
+              routeProps => <Register setToken={setToken} />} path="/signup" exact  />     
+          
+          <Route component={ForgotPassword} path="/forgot_password" exact />
 
+          <Footer />
+          <div className="know-top"></div>
 
-
-           {/*
-
-              Definig Routes
-           
-           */}
-
-
-      <Route component={Home} path="/" exact/>
-
-
-     <Route component={CourseContent} path="/course/:course_name/:course_id"/>
-
-     <Route component={Profile} path="/instructor/:instructor_name/:instructor_id"/>
-    
-     <Route component={Cart} path="/cart"/>
-     <Route component={MyCourses} path="/my_courses"/>
-     
-     <Route component={Wishlist} path="/wishlist"/>
-     <Route component={Checkout} path="/checkout"/>
-     <Route component={HelpAndSupport} path="/help_and_support"/>
-     <Route component={PrivacyAndPolicy} path="/privacy_and_policy"/>
-     <Route component={GetTheApp} path="/get_the_app"/>
-     <Route component={ContactUs} path="/contact_us"/>
-     <Route component={AboutUs} path="/about_us"/>
-     <Route component={TeachWithUs} path="/teach_with_us"/>
-     
-      <Route 
-      component={
-        routeProps => <Login setToken={setToken} />} path="/login" exact  />     
-      
-        <Route 
-        component={
-          routeProps => <Register setToken={setToken} />} path="/signup" exact  />     
-       
-       <Route component={ForgotPassword} path="/forgot_password" exact />
-
-      <Footer />
-      <div className="know-top"></div>
-
-        </div>
-        </div>
+          </div>
+      </div>
       
       
         )
@@ -326,10 +351,7 @@ const Wrapper = () => {
 
 
 async function toggleSideBar1(sideBar) {
-   sideBar.classList.toggle('active')
-
-  // let footerContainer = document.querySelector('.contain')
-  //footerContainer.classList.toggle('w-1400')
+  await sideBar.classList.toggle('active')
 }
 
 

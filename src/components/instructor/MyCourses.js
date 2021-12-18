@@ -7,26 +7,18 @@ import wishlistEmptyImage from './assets/folder (2)@2x.png'
 
 import { Link, useHistory } from 'react-router-dom'
 import { getRatingDiv } from '../course/CourseContent'
+import { useSelector } from 'react-redux'
 
 
 
 
 export const MyCourses = (props) => {
     const history = useHistory()
-    const [courses, setCourses] = useState([])
+    const courses = useSelector(state => state.mainData.myCourses)
     useEffect(()=>{
         if(!localStorage.getItem('token')){
             history.push('/login')
         }   
-        axios({
-            method : 'GET',
-            url :URL_ROOT + '/my_learnings/',
-            headers : {
-                Authorization : `${localStorage.getItem('token')}`
-              }
-        }).then(res => {
-            setCourses(res.data.courses)
-        }).catch(err => console.log(err))
     },[])
 
     
@@ -35,7 +27,7 @@ export const MyCourses = (props) => {
         <div className='my-5 d-flex justify-content-center align-items-center'>
             <div className='my-5'>
             <img className='my-5' src={wishlistEmptyImage} alt="empty-cart"/>
-            <h5 className='my-5'>Your Wishlist Is Empty</h5>
+            <h5 className='my-5'>Your Courses Is Empty</h5>
             <Link className='my-5' to="/" style={{background:'#CA5B5B', color:'#fff', padding: '10px 20px', borderRadius:'20px'}}>Browse Courses</Link>
             </div>
         </div>
@@ -43,25 +35,25 @@ export const MyCourses = (props) => {
 
      const courseList = () => courses.map( ct =>
          
-        <div key={ct.course_id} className='pb-5' id={ct.course_id} >
-          <div className='row top-courses-h my-3' id={ct.course_id}>
-        <Link to={`/course/${ct.course_name}/${ct.course_id}/`} className='col-3 h-100 w-100' style={{backgroundPosition: 'center', 
-          backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  ct.course_image}')`}}>
+        <div key={ct.course.course_id} className='pb-5' id={ct.course.course_id} >
+          <div className='row top-courses-h my-3' id={ct.course.course_id}>
+        <Link to={`/course/${ct.course.course_name}/${ct.course.course_id}/`} className='col-3 h-100 w-100' style={{backgroundPosition: 'center', 
+          backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  ct.course.course_image}')`}}>
         </Link>
         
         <div  className='col-6 ms-3'>
           <div className=' d-flex justify-content-between'>
             <div style={{color:'#1080D4'}}>
-               <h4>{ct.course_name}</h4> 
-               <h5>By {ct.course_instructor.user.username}</h5>
+               <h4>{ct.course.course_name}</h4> 
+               <h5>By {ct.course.course_instructor.user.username}</h5>
             </div>
 
           </div>
           <div className=''>
-                        <p className='' style={{color:'red', fontSize:'1.4rem'}}>{ct.course_rate } {getRatingDiv(ct.course_rate)} </p>
+                        <p className='' style={{color:'red', fontSize:'1.4rem'}}>{ct.course.course_rate } {getRatingDiv(ct.course.course_rate)} </p>
           </div>
           <div className='my-3'>
-          <Link className='to-check my-5' style={{color:'#fff', padding:'10px 20px', borderRadius:'20px', backgroundColor:'#C345DD'}} to="/checkout">Procceed To Course</Link>
+          <Link className='to-check my-5' style={{color:'#fff', padding:'10px 20px', borderRadius:'20px', backgroundColor:'#C345DD'}} to={"/" + ct.course.course_name + "/" + ct.course.course_id + "/course_content"}>Procceed To Course</Link>
           </div>
 
         </div>
@@ -69,7 +61,7 @@ export const MyCourses = (props) => {
         <>
         
         <p className="btn" style={{color:'#1080D4', margin:'0'}}>
-                  {ct.is_free ? 'Free Course' : ct.course_price + "SP"}</p><br /></>
+                  {ct.course.is_free ? 'Free Course' : ct.course.course_price + "SP"}</p><br /></>
                                   
        
         </div>
@@ -83,7 +75,7 @@ export const MyCourses = (props) => {
     return (
         <div className='cart-wrapper'>
            {courses ?  <div className='p-5 '>
-            <h3>My Wishlist</h3>
+            <h3>My Courses</h3>
             <div className="card col-6 bg-white" style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px'}}>
               <div className="card-body">
                 {courses.length === 0 ? emptyCart() : <div>{courseList()}</div> }

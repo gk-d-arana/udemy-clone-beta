@@ -1,4 +1,4 @@
-import {SET_MAIN_DATA, SET_TOP_SELLING_COURSES, COURSE_FAVOURITE} from './mainDataTypes'
+import {SET_MAIN_DATA, SET_TOP_SELLING_COURSES, COURSE_FAVOURITE, SET_MY_COURSES} from './mainDataTypes'
 
 
 
@@ -24,3 +24,13 @@ export const addCourseToFavourite = data => {
         payload: data
     }
 }
+
+
+export const setMyCourses = data => {
+    return {
+        type: SET_MY_COURSES,
+        payload: data
+    }
+}
+
+

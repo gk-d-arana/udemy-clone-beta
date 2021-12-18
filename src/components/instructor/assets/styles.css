@@ -5,6 +5,10 @@
 }
 
 
+.card-notif{
+	min-height: 630px;
+}
+
 
 .instruc-img {
 	width: 300px;
@@ -28,6 +32,12 @@
 .gridded-goals2 {
 	display: grid;
 	grid-template-columns: 500px 500px;
+	grid-row-gap: 25px;
+}
+
+.gridded-goals2tt{
+	display: grid;
+	grid-template-columns: 250px auto;
 	grid-row-gap: 25px;
 }
 
@@ -64,4 +74,43 @@
 .link-div a{
     background-color: purple !important;
     color: #fff;
+}
+
+.div-1-pr{
+	width:21rem;
+	position: relative;
+	left: 40px;
+	background-color: #fff;
+}
+
+.div-2-pr{
+	height: 800px;
+}
+
+
+.active-h{
+	text-shadow: 1px 1px #CA5B5B;
+}
+
+.mp-wrapper h2{
+	color: #000 !important;
+	border-bottom: none;
+}
+
+.login-input-div{
+	padding: 0 10px;
+}
+
+.save{
+	background-color: #CA5B5B;
+	padding: 10px 15px;
+	border-radius: 20px;
+	color: #fff;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	border: none !important;
+}
+
+
+.notif-list li::marker{
+	color: red !important;
 }

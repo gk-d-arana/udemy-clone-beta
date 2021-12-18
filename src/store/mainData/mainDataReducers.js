@@ -1,12 +1,14 @@
 import {
     SET_MAIN_DATA,
     SET_TOP_SELLING_COURSES,
-    COURSE_FAVOURITE
+    COURSE_FAVOURITE,
+    SET_MY_COURSES
 }  from "./mainDataTypes"; 
 
 const initialState = {
     data : [],
-    topSellingCourses : []
+    topSellingCourses : [],
+    myCourses: []
 }
 
 
@@ -26,6 +28,10 @@ const mainDataReducer = (state=initialState, action) => {
             let index = newState.topSellingCourses.indexOf(tc => tc.course.course_id === action.payload)
             newState.topSellingCourses[index].in_wishlist = !newState.topSellingCourses[index].in_wishlist
             return newState
+        }
+        case SET_MY_COURSES: return {
+            ...state,
+            myCourses : action.payload
         }
         default: return state
     }

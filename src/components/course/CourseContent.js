@@ -1,60 +1,26 @@
-import React, { useEffect,useState } from 'react'
-import {URL_ROOT} from '../../utils/js'
-import { Link } from 'react-router-dom'
-import './assets/styles.css'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import { URL_ROOT } from '../../utils/js'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Collapse from '@mui/material/Collapse'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
-import DraftsIcon from '@mui/icons-material/Drafts'
-import SendIcon from '@mui/icons-material/Send'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
-import StarBorder from '@mui/icons-material/StarBorder'
-import axios from 'axios'
-import { useParams } from 'react-router-dom';
-import Divider from './assets/Path 32@2x.png'
+import ListItemText from '@mui/material/ListItemText'
+import Collapse from '@mui/material/Collapse'
 import { useSelector } from 'react-redux'
-import { LinearProgress } from '@mui/material';
-import Tick from './assets/check (1)@2x.png'
-import { useDispatch } from 'react-redux'
-
-
-
-export const getRatingList = (ratings) => {
-  let ratingPercentage = [0, 0, 0, 0, 0]
-  if(ratings.length === 0) return ratingPercentage
-  for (let index = 0; index < ratings.length; index++) {
-    if(ratings[index].rating_value >= 0 && ratings[index].rating_value < 1) { 
-        ratingPercentage[0] += 1
-    }
-    if(ratings[index].rating_value >=1 && ratings[index].rating_value < 2) { 
-      ratingPercentage[1] += 1
-    }
-    if(ratings[index].rating_value >= 2 && ratings[index].rating_value < 3) { 
-      ratingPercentage[2] += 1
-    }
-    if(ratings[index].rating_value >= 3 && ratings[index].rating_value < 4) { 
-      ratingPercentage[3] += 1
-    }
-    if(ratings[index].rating_value >= 4 && ratings[index].rating_value <= 5) { 
-      ratingPercentage[4] += 1
-    }
-  }
-  for (let i = 0; i < ratingPercentage.length; i++) {
-    ratingPercentage[i] = ratingPercentage[i] * 100 /ratings.length
-  }
-  return ratingPercentage
-}
-
-
-
+import './assets/styles.css'
+import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
+// swiper bundle styles
+import 'swiper/swiper-bundle.min.css'
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+// swiper core styles
+import 'swiper/swiper.min.css'
+import { useRef } from 'react'
 
 export const getRatingDiv = (rating) => {
                   
-  if (rating == 0){                           
+  if (rating === 0){                           
   return <span className="w-100">
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -167,471 +133,230 @@ export const getRatingDiv = (rating) => {
   }
 }
 
-
-
-
-
-export const CourseContent = (props) => {
-    const topSellingCourses = useSelector(state => state.mainData.topSellingCourses)    
+const CourseContent = () => {
+    const { course_id, course_name } = useParams()
+    const history = useHistory()
     const [course, setCourse] = useState({})
-    const [inCart, setInCart] = useState(false)
-    const [open, setOpen] = useState(true)
-    const { course_id } = useParams();
     const [ratings, setRatings] = useState([])
-    const [showAddToCart, setShowAddToCart] = useState(false)
-    const dispatch = useDispatch()
-
-    
-  
+    const [counter, setCounter] = useState(0)
+    const [ratingValue, setRatingValue] = useState("")
     const [expandedRows, setExpandedRows] = useState([]);
-
-    // State variable to keep track which row is currently expanded.
+    const instructor = useSelector(state => state.auth.instructor)
     const [expandState, setExpandState] = useState({});
-  
-    /**
-     * This function gets called when show/hide link is clicked.
-     */
-    const handleExpandRow = (event, sectionId) => {
-      const currentExpandedRows = expandedRows;
-      const isRowExpanded = currentExpandedRows.includes(sectionId);
-  
-      let obj = {};
-      isRowExpanded ? (obj[sectionId] = false) :  (obj[sectionId] = true);
-      setExpandState(obj);
-  
-      // If the row is expanded, we are here to hide it. Hence remove
-      // it from the state variable. Otherwise add to it.
-      const newExpandedRows = isRowExpanded ?
-            currentExpandedRows.filter(id => id !== sectionId) :
-            currentExpandedRows.concat(sectionId);
-  
-      setExpandedRows(newExpandedRows);
-    }
-    
-    const [inWishlist, setInWishlist] = useState(true)
-    useEffect(()=>{
-        window.scrollByLines(-window.scrollY)
-     
-       axios({
-          method: "GET",
-          url: `${URL_ROOT + '/course_details/' + course_id}`,          
-          headers : {
+    let currentSlide = -1
+  useEffect(()=>{ 
+    window.scrollByLines(-window.scrollY)
+   
+    axios({
+        method: 'GET',
+        url: URL_ROOT + '/check_course/' + course_id + '/',
+        headers: {
             Authorization : `${localStorage.getItem('token')}`
-          }
-        }).then(res=>{
-          setCourse(res.data.course)
-          setInCart(res.data.in_cart)
-          setInWishlist(res.data.in_wishlist)
-          axios({
-            method: 'GET',
-            url : URL_ROOT + '/course_ratings/' + res.data.course.course_id
-          }).then(res=>{
-            setRatings(res.data)
-        })
-        })
-      
-    }, [course_id])
+        }
+    }).then(res => {
+        if(res.data.in_my_learning === false) history.push('/course/' + course_name + '/' + course_id)
+        setCourse(res.data.course)
+        setRatings(res.data.ratings)
+        console.log('in1')
+    }).catch(err => history.push('/course/' + course_name + '/' + course_id))
+  }, [])
 
+  const handleExpandRow = (event, sectionId) => {
+    const currentExpandedRows = expandedRows;
+    const isRowExpanded = currentExpandedRows.includes(sectionId);
 
-    const addToCart = () => {
-      const data = JSON.stringify({
-        course_id : course_id
-      })
+    let obj = {};
+    isRowExpanded ? (obj[sectionId] = false) :  (obj[sectionId] = true);
+    setExpandState(obj);
 
-      axios({
-        method:'POST',
-        url : URL_ROOT + '/cart_manager/',
-        headers : {
-          "Authorization" : `${localStorage.getItem('token')}`,
-          "Content-Type" : "application/json"
-        },
-        data : data
-      }).then(res => { 
-        console.log(res.data)
-        setInCart(true)
-        setShowAddToCart(true)
-      }).catch(err => {
-         console.log(err)
-      })
-    } 
+    // If the row is expanded, we are here to hide it. Hence remove
+    // it from the state variable. Otherwise add to it.
+    const newExpandedRows = isRowExpanded ?
+          currentExpandedRows.filter(id => id !== sectionId) :
+          currentExpandedRows.concat(sectionId);
 
-
-    const addToWishlist = courseId => {
-      const data = JSON.stringify({
-        course_id : courseId
-      })
-       axios({
-        method:'POST',
-        url : URL_ROOT + '/manage_wishlist/',
-        headers : {
-          "Authorization" : `${localStorage.getItem('token')}`,
-          "Content-Type" : "application/json"
-        },
-        data : data
-      }).then(res => {
-        console.log(res)
-        setInWishlist(true)
-      }).catch(err => console.log(err )) 
+    setExpandedRows(newExpandedRows);
   }
 
-    const removeFromWishlist = courseId => {
-      const data = JSON.stringify({
-        course_id : courseId
-      })
-       axios({
-        method:'DELETE',
-        url : URL_ROOT + '/manage_wishlist/',
-        headers : {
-          "Authorization" : `${localStorage.getItem('token')}`,
-          "Content-Type" : "application/json"
-        },
-        data : data
-      }).then(res => {
-        console.log(res)
-        setInWishlist(false)
-      }).catch(err => console.log(err )) 
+  const swiperRef = useRef(null)
+  const handleCheckVideo = (id) =>{
+        console.log(id)
+  }
+
+  const handleChangeDiv = (h4E) =>{
+    
+    let overview = document.querySelector('.overview')
+    let ratings = document.querySelector('.ratings')
+
+    if(h4E === "overview"){
+      overview.classList.remove('hidden')
+      ratings.classList.add('hidden')
+    }
+    else if(h4E === "ratings"){      
+      overview.classList.add('hidden')
+      ratings.classList.remove('hidden')
+    }
   }
 
 
-
-  const addTcToWishlist = courseId => {
-    const data = JSON.stringify({
-      course_id : courseId
+  const handleAddRating = (e)=>{
+    e.preventDefault();
+    let data = JSON.stringify({
+      course_id: course_id,
+      rating_content: ratingValue,
+      rating_value: 1.0
     })
-     axios({
-      method:'POST',
-      url : URL_ROOT + '/manage_wishlist/',
-      headers : {
-        "Authorization" : `${localStorage.getItem('token')}`,
-        "Content-Type" : "application/json"
+    axios({
+      method: 'POST',
+      url: URL_ROOT + '/rating_manager/',
+      headers: {
+          Authorization : `${localStorage.getItem('token')}`
       },
-      data : data
-    }).then(res => {
-      console.log(res)
-      dispatch({
-        type : 'COURSE_FAVOURITE',
-        payload : courseId
-      })
-    }).catch(err => console.log(err )) 
-}
+      data: data
+  }).then(res=>{
+    console.log(res)
+    }).catch(err=>console.log(err))
+  }
 
-  const removeTcFromWishlist = courseId => {
-    const data = JSON.stringify({
-      course_id : courseId
-    })
-     axios({
-      method:'DELETE',
-      url : URL_ROOT + '/manage_wishlist/',
-      headers : {
-        "Authorization" : `${localStorage.getItem('token')}`,
-        "Content-Type" : "application/json"
-      },
-      data : data
-    }).then(res => {
-      console.log(res)
-      dispatch({
-        type : 'COURSE_FAVOURITE',
-        payload : courseId
-      })
-    }).catch(err => console.log(err )) 
-}
+  return (
+    <div className='mb-5 pb-5 overflow-hidden'>
+        {/* Video And Course Section/Videos */}
+        <div className='row video_section mb-5'>
 
-    return ( 
-        <div className='cxl my-3'>
-            <div className='wrapper1 d-flex'>
-            <div className='col-8 general-info-wrapper' >
-          <div className='control-height' style={{position:'relative'}} >
-           <img src={Divider} alt="Nothing To See" className='des-img' />
-            <nav className='bc-dv mt-5 p-0' style={{fontSize:'2rem'}} aria-label="breadcrumb ">
-              <ol className="breadcrumb p-0 " style={{backgroundColor:'transparent'}}>
-                <li className="breadcrumb-item" id={course.course_parent_category?course.course_parent_category[0].parent_category_id:""}>{course.course_parent_category?course.course_parent_category[0].parent_category_name:""}</li>
-                <li className="breadcrumb-item " id={course.course_category?course.course_category[0].category_id:""}>{course.course_category?course.course_category[0].category_name:""}</li>
-                <li className="breadcrumb-item active"  aria-current="page" id={course.course_id}>{course.course_name}</li>
-             
-              </ol>
-            </nav>
+            <div className='col-xl-8 p-0 mb-5'>
+            <Swiper
+              modules={[Navigation, Pagination, Scrollbar, A11y]}
+              spaceBetween={20}
+              slidesPerView={1}
+              navigation
+              onSlideChange={(e)=>{
+                async function doIt(){
+                  e.slides[e.realIndex].childNodes[0].src = e.slides[e.realIndex].childNodes[0].id          
+                }          
 
-            <h4>
-            {course.course_subtitle}
-            </h4>       
-
-
-            {/*<p>{course.badges}</p>*/}
-            <div className='col-xl-10 d-flex justify-content-between align-items-center'>
-                    <p style={{color:'gold'}}>Best Seller</p>
-                <span style={{color:'red'}}>
-                    <span style={{fontSize:'2rem'}}>{course.course_rate}</span>
-      {getRatingDiv(course.course_rate) }
-
-                </span>
-                <p>{course.course_students} Students </p>
-           </div>
-            <p><span style={{color:"gray"}}>Created By</span> {course.course_instructor?course.course_instructor.user.username:""}</p>
-            <div className='col-xl-6 d-flex justify-content-between align-items-center'>
-                <p>
-                <i className='bx bx-time'></i>
-                Last Updated At {'   ' + course.updated_at}
-                </p>
-                <p><i className='bx bx-world'></i>English</p>
-               
-               
-                </div> 
-</div>
-                <div className='what-to-learn mt-4'>
-                  <div className="card" style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px'}} >
-                    <div className="card-body">
-                    <button type="button" className="to-learn-btn" style={{margin:'13px'}}>What Will You Learn</button>
-                      
-                      <div className='gridded-goals'>
-                          {course.course_learning_goals ? course.course_learning_goals.map(clg => 
-                          <div className='gridded-goal d-flex'>
-                                  <div className='col-2'><i style={{fontSize:"2rem"}} className='bx bx-check'></i></div>
-                              <div className='col-10'>{clg.learning_goal}</div>
-                          </div>
-                          ):""}
-                      </div>
-                    </div>
-                  </div>
-
-
-                  </div>
-              
-                </div>
-
-
-            <div className='col-4 d-flex justify-content-center align-items-center'>
-                <div className="card w-100" style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px'}}>
-                    <div className='card-head-div' style={{position:'relative'}}>
-            <div className='w-100' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  course.course_image}')`}}>
-            </div>
-                      <Link to="/"> 
-                      <div className="play-wrapper">
-                      <i className='bx bx-play'></i>
-                      </div>
-                      </Link>
-                    </div>
-                  <div className="card-body text-center">
-                    {inCart? <Link to="/cart"><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Cart</div><br /></Link> : 
-                    <><div>
-                                <div onClick={()=> addToCart()} className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
-                                <div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Buy Now</div> <br />
-                                <a href='#' style={{color:'#686EAD'}}>Apply Coupon</a><br />
-                    <p className="btn color-gold">{course.is_free? 'Free Course' : course.course_price + "SP"}</p><br />
-                            </div></>}
-                    
-                            {inWishlist ?
-             <div onClick={()=>removeFromWishlist(course.course_id)} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-             color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
-              <i  className='bx bxs-heart' ></i><br />Remove From Favourite
-                        </div>
-                 :<div onClick={()=>addToWishlist(course.course_id)} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-                 color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
-                        <i  className='bx bx-heart' color='#FB0000' style={{fontSize:'2rem'}}></i><br/>Add To Favourite
-                        </div>
-                        }
-
-                  </div>
-                </div>
-            </div>
-
+                doIt().then(()=>{
+                  e.slides.forEach(sl => {
+                    sl.childNodes[0].src = ""
+                  })
+                })
+                    }}
+                ref={swiperRef}
+              >
+            {course.sections ? course.sections.map(cs => 
+              cs.videos ? cs.videos.map(video => 
+                <SwiperSlide key={video.video.video_id}>
+                      <video id={URL_ROOT + video.video.video} className='w-100'  controls></video>
+                </SwiperSlide>            ) : ""
+              ): ""  }  
+              </Swiper>
+          <div className='pager-div p-5 d-flex justify-content-between'> 
+          <h4 onClick={()=>handleChangeDiv("overview")}>Overview</h4>
+          <h4 onClick={()=>handleChangeDiv("ratings")}>Leave A Rating And A Comment</h4>
+        </div>
             </div>
             
-
-            <div className='course-content my-5'>
-            <button type="button" className="to-learn-btn">Course Content</button>
-              
-              
-              
-                <div className='text-center d-flex justify-content-center'><h3 className='col-3'>This Course Includes</h3></div>
-                  <div className='gridded-overview'>
-                    <div>
-                    <i className='bx bx-time'></i>  {course.course_sections ? course.course_sections.length : 0} Sections, {course.course_videos_count} Lectures
-                    </div>
-                    <div>
-                    <i className='bx bx-spreadsheet'></i>  4 Tests
-                    </div>
-                    <div>
-                    <i className='bx bx-mobile'></i>  Access On Moible And Web
-                    </div>
-                    <div>
-                    <i className='bx bxs-spreadsheet'></i>  Certificate Of Complete
-                    </div>
-                  </div>
-                              
-            
-          {course.course_sections ? course.course_sections.map(cs => 
-        <List
+            <div className='col-xl-4 p-0' style={{boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'}}>
+                {course.sections ? course.sections.map(cs => 
+                
+            <List key={cs.section.section_id}
       sx={{ width: '100%', bgcolor: 'background.paper' }}
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <ListItemButton onClick={(e)=>handleExpandRow(e,cs.section_id)}>
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary={cs.section_name} style={{color:'#1080D4', fontSize:'1.4rem'}}/>
-        {open && expandedRows.includes(cs.section_id) ? <ExpandLess /> : <ExpandMore />}
+      <ListItemButton  onClick={(e)=>handleExpandRow(e,cs.section.section_id)}>
+        <ListItemText style={{fontSize:'1.4rem'}}>
+            <div className='w-100 d-flex justify-content-between'>
+        <span>{cs.section.section_name} </span> <span>{cs.videos? cs.videos.length : ""} Lectures</span>
+            </div>
+        </ListItemText>
+        {expandedRows.includes(cs.section.section_id) ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open && expandedRows.includes(cs.section_id)} timeout="auto" unmountOnExit>
-        {cs.section_videos? cs.section_videos.map(video => 
-        <List component="div" >
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText>{video.video_title}</ListItemText>
-          </ListItemButton>
+        {/*setCounter(counter+1)
+         id={counter}  }
+        */}
+      <Collapse in={expandedRows.includes(cs.section.section_id)} timeout="auto" unmountOnExit>
+        {cs.videos? cs.videos.map(video =>{
+          currentSlide++
+          return <List key={video.video.video_id} >
+          <div className='d-flex px-3' id={currentSlide} style={{cursor:'pointer'}}>
+              <input id={video.id} className='mx-3' type="checkbox"onChange={(e)=>{
+                e.target.checked = !(e.target.checked)
+                handleCheckVideo(e.target.id)
+                }} checked={video.is_watched} />
+            <p id={currentSlide}
+             onClick={(e)=>swiperRef.current.swiper.slideTo(parseInt(e.target.id))} className='m-0 w-100' 
+             >{video.video.video_title}</p>
+          
+          </div>
         </List>
+        }
           ) : ""}
       </Collapse>
 
-    </List>) : ""}  
-      
-
-
-
-
-{/* Requirements */}
-
-<button type="button" className=" to-learn-btn">Requirements</button>
-<ul className='course_requirements'>
-  {course.course_requirements?course.course_requirements.map(cr=>
-    <li id={cr.id}>{cr.course_requirement}</li>
-    ):""}
-</ul>
-
-
-
-          {/* Description */}
-          <button type="button" className=" to-learn-btn">Description</button>
-          <div className='desc w-100'>
-          <p>
-            {course.course_description}
-            </p>
-          </div>
-
-
-
-      {/* Top Selling Courses  */}
-
-        <button type="button" className=" to-learn-btn">Students Also Bought</button>
-
-        {topSellingCourses.map(tc =>{
-          if(course_id == tc.course.course_id){return ""}
-          return<>
-            <div className='row top-courses-h my-3' id={tc.course.course_id}>
-            <div className='col-3 h-100 w-100' style={{backgroundPosition: 'center', 
-              backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  tc.course.course_image}')`}}>
+    </List>
+    ) : ""}
+    
             </div>
-            <div className='col-7'>
-          <Link id={tc.course.course_id} to={`/course/${tc.course.course_name}/${tc.course.course_id}/`}>
-
-              <div className='d-flex justify-content-between'>
-                <div style={{color:'#1080D4'}}>
-                   <h4>{tc.course.course_name}</h4> 
-                </div>
-              <div className='d-flex align-items-center'>
-                <h5 style={{color:'gray'}}><i className='bx bx-people'></i>{tc.course.course_students}Students</h5>
-                {tc.in_my_learning ?  <>
-                <div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Course</div><br /></> :
-                <><p className="btn" style={{color:'#1080D4', margin:'0'}}>
-                  {tc.course.is_free ? 'Free Course' : tc.course.course_price + "SP"}</p><br /></>
-                                  }
-              </div>
-
-              </div>
-              <div className='d-flex justify-content-between'>
-          <button type="button" style={{fontSize:'.8rem', margin:'0'}} className=" to-learn-btn">{tc.course.badges}</button>
-                            <p style={{color:'red'}}>{tc.course.course_rate} <i className='bx bxs-star'></i></p>
-              </div>
-              </Link>
-            </div>
-            <div className='col-2'>
-            {tc.in_wishlist ?
-             <div onClick={()=>{
-              tc.in_wishlist = false
-              removeTcFromWishlist(tc.course.course_id)
-              }
-            } className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-             color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
-              <i  className='bx bxs-heart' ></i><br />Remove From Favourite
-                        </div>
-                 :<div onClick={()=>{tc.in_wishlist = true;addTcToWishlist(tc.course.course_id)}} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-                 color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
-                        <i  className='bx bx-heart' color='#FB0000' style={{fontSize:'2rem'}}></i><br/>Add To Favourite
-                        </div>
-                        }
-                    </div> 
-            </div>
-          
-          </>
-        })}
-        
-        
-
-        
-      
-
-
-
-        {/* Instructor Info */}
-
-        <button type="button" className=" to-learn-btn">About Instructor</button>
-        
-        {course.course_instructor ? <div className='instructor-div ms-5'>
-          <div className='row r1'>
-            <div className='col-4 ' >
-             <div className='instruc-p-img' style={{backgroundPosition: 'center',
-              backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  course.course_instructor.profile_image}')`}}>
-            </div> 
-            </div>  
-            <div className='col-xl-8 d-flex justify-content-center align-items-center'>
-              <div>
-              <h5>{course.course_instructor.user.username}</h5>
-              <h5>{course.course_instructor.job_role}</h5>
-              </div>
-            </div>
-          </div>
-          <div className='ms-4 h-div'>
-          <h5><i className='bx bxs-star me-1'></i>{course.course_instructor.total_rate} Instructor Rating</h5>
-          <h5><i className='bx bxs-comment me-1'></i>{course.course_instructor.total_reviews}Reviews </h5>
-          <h5><i className='bx bxs-people me-1'></i>{course.course_instructor.total_students}Students </h5>
-          <h5><i className='bx bxs-play me-1'></i>{course.course_instructor.courses_count}Courses</h5>
-          <h5>{course.course_instructor.bio}</h5>
-        
-             </div>
-             <div  className='d-flex justify-content-end align-items-center w-100'>
-               <Link style={{color:"purple"}} to={"/instructor/"  + course.course_instructor.user.username+  "/" +  course.course_instructor.id }>
-                  Read More
-               </Link>
-             </div>
-        </div>: ""}
-        
-
-
-        {/* Students Feedback */}
-        <button type="button" className=" to-learn-btn">Students Feedback</button>
-        <div className='row container'>
-            <div className='col-4 text-center rev-col'>
-              <h1>{course.course_rate}</h1>
-           {getRatingDiv(course.course_rate)}
-           <h3>{ratings.length + "   "} Reviews</h3>
-            </div>
-
-          <div className='col-8'>
-            {getRatingList(ratings).map( (e,key) =>  
-            <div className='d-flex justify-content-between align-items-center'>
-              <p>{key+1} Stars</p>
-                <progress max={100} style={{width:'300px'}} value={e}></progress>
-                
-              <p>{e}%</p>
-            </div>
-            )}
-          </div>
-
 
         </div>
 
-      {/* Ratings */}
-<div className='gridded-goals2 my-4'>
 
+    { course.course ?
+        <div>
+          <h3 className='ms-3 mt-3' style={{ color: '#1080d4' }}>
+          {course.course.course_name}
+        </h3>
+          <div className='overview p-5'>
+              <button type="button" className="to-learn-btn" style={{ margin: '0' }}>About</button>
+              <div className='p-3'><h5>{course.course.course_subtitle}</h5>
+                <h5><b>Skill Level:</b>{course.course.course_level}</h5>
+                <h5><b>Number Of Students:</b>{course.course.course_students}</h5>
+                <h5><b>Language:</b>{course.course.course_language}</h5>
+                <h5><b>Lectures:</b>{course.course.course_videos_count} Lectures</h5>
+              </div>
+              <button type="button" className="to-learn-btn" style={{ margin: '0' }}>Description</button>
+              <h5 className='p-3'>{course.course.course_description}</h5>
+          </div>
+        </div>  : ""}
+
+        <div className='ratings hidden p-5'>
+          <button type="button" className="to-learn-btn" style={{margin:'0'}}>Rating</button>
+
+          <div className='row w-100'>
+            <div className='col-xl-6 text-center'>
+              <h5 className='mt-4'>How Would You Like To Rate This Course</h5>
+              <div style={{cursor:'pointer'}}>
+                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"1.8rem"}}></i>
+                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2rem"}}></i>
+                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.2rem"}}></i>
+                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.4rem"}}></i>
+                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.6rem"}}></i>
+              </div>
+            </div>
+
+            <div className='col-xl-6 d-flex justify-content-center'>
+              <div class='gridded-overview'>
+              <div className='text-center'>
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"1.8rem"}}></i> <br/>
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2rem"}}></i>   <br/>
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.2rem"}}></i> <br/> 
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.4rem"}}></i> <br/> 
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.6rem"}}></i> <br/> 
+              </div>
+              
+              <div>
+              <h5>Awful</h5>
+              <h5 style={{margin:'8px 0'}}>Disappointed</h5>
+              <h5 style={{margin:'8px 0'}}>Could Be Better</h5>
+              <h5 style={{margin:'15px 0'}}>Good</h5>
+              <h5 style={{margin:'8px 0'}}>Amazing</h5>
+              </div>
+              </div>
+            </div>
+            
+          </div>
+          <button type="button" className="to-learn-btn" style={{margin:'10px 0 0 0'}}>Comments</button>
+          <div className='gridded-goals2 my-5'>
           {ratings.map(rating=>
               <div  style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px'}} id={rating.rating_id} className='row r1 p-4'>
               <div className='d-flex justify-content-between w-100 align-items-center'>
@@ -641,7 +366,7 @@ export const CourseContent = (props) => {
                 }}>
                 </div>
                 <h5>{rating.instructor.user.username}</h5>
-                <span className='col-3'>{getRatingDiv(rating.rating_value)}</span>     
+                <span className='col-xl-5'>{getRatingDiv(rating.rating_value)}</span>     
               </div>
               <div className='my-3'>
                 <p>{rating.rating_content}</p>
@@ -649,44 +374,20 @@ export const CourseContent = (props) => {
             </div>
 
           )}
-</div>  
-
-
-
-      {/*  Added To Cart  */}
-                { showAddToCart && <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  Launch demo modal
-                </button>}
-                <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Added To Cart</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div className="modal-body d-flex justify-content-between align-items-center">
-                        <img src={Tick} alt="tick" />
-                        <div className='col-4' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  course.course_image}')`}}>
-                       </div>
-                       <h4>{course.course_name}</h4>
-                       <Link to="/cart"><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
-                       </Link>
-                      </div>
-                    </div>
+          </div>
+                <form className='col-xl-8' onSubmit={(e)=>handleAddRating(e)}>
+                  <div className='d-flex w-100'>
+                  <div className="nav-item username">
+                    {instructor.user ? instructor.user.username : "Username"}
                   </div>
-                </div>
-               
-            </div>
-
-
-  
-
-
-
-
-
+                  <input placeholder="Enter Your Comment" className="login-input" value={ratingValue} onChange={(e)=>setRatingValue(e.target.value)} required/>
+                  <input type="submit" hidden/>
+                  </div>
+                </form>
         </div>
-    )
+
+    </div>
+  )
 }
 
 export default CourseContent

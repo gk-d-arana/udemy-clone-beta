@@ -40,6 +40,15 @@
 	grid-row-gap: 25px;
 }
 
+
+.gridded-goals2-t {
+	display: grid;
+	grid-template-columns: 40% 40%;
+	grid-column-gap: 10%;
+	grid-row-gap: 25px;
+}
+
+
 .gridded-overview {
 	display: grid;
 	grid-template-columns: auto auto;
@@ -100,3 +109,29 @@ progress::-webkit-progress-value {
 	background: #F69F0C;
 	width: 300px;
 } 
+
+
+
+.video_section .col-xl-8{
+	height: 600px;
+}
+.video_section video{
+	height: 585px;
+}
+
+.pager-div h4{
+	color: #000 !important;
+	cursor: pointer;
+}
+
+.hidden{
+	display: none;
+}
+
+.login-input {
+	border: 1.4px solid #58afe1;
+	border-radius: 20px;
+	padding: 10px;
+    margin: 0 20px;
+
+}
