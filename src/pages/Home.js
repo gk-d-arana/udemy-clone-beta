@@ -158,9 +158,7 @@ export const Home = (props) => {
   }
   else{
     (async() => {
-      console.log("waiting for variable");
       while(randomePcatObject.parent_category===undefined){
-        console.log('in')  
         await new Promise(resolve => setTimeout(resolve, 500));
       }
         axios({

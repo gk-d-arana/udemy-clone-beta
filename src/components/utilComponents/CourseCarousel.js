@@ -9,11 +9,10 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 // swiper core styles
 import 'swiper/swiper.min.css'
 import './assets/css/carouselStyles.css'
+import CourseItem from '../course/CourseItem';
 
 
 const CourseCarousel = ({pcatCourses, getRatingDiv}) => {
-
-
     return (
         <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -22,13 +21,19 @@ const CourseCarousel = ({pcatCourses, getRatingDiv}) => {
       navigation
     >
       {pcatCourses.courses.map(pcatCourse => 
-      <SwiperSlide id={pcatCourse.course_id} key={pcatCourse.course_id}>
-      <Link to={{pathname: `/course/${pcatCourse.course_name}/${pcatCourse.course_id}/`, 
+      <SwiperSlide className='position-relative' id={pcatCourse.course_id} key={pcatCourse.course_id}>
+      <Link id={pcatCourse.course_id} onMouseEnter={(e)=>{document.querySelector(`.hov-${e.target.id}`) ? 
+      document.querySelector(`.hov-${e.target.id}`).classList.remove('hidden'):console.log(e.target)}}
+      
+      onMouseLeave={(e)=>{document.querySelector(`.hov-${e.target.id}`) ? 
+      document.querySelector(`.hov-${e.target.id}`).classList.add('hidden'):console.log(e.target)}}
+
+      to={{pathname: `/course/${pcatCourse.course_name}/${pcatCourse.course_id}/`, 
         }} >
-          <div className='card-img' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  pcatCourse.course_image}')`}}>
+          <div id={pcatCourse.course_id} className='card-img' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  pcatCourse.course_image}')`}}>
             </div>
                 
-              <div className="card-body" style={{color:'#000'}}>
+              <div id={pcatCourse.course_id} className="card-body" style={{color:'#000'}}>
                 <h5 className="card-title">{pcatCourse.course_name}</h5>
                 <div className="card-text"> {pcatCourse.course_subtitle}
                 <br />  
@@ -43,6 +48,16 @@ const CourseCarousel = ({pcatCourses, getRatingDiv}) => {
                 <span href="#" className="btn color-gold">{pcatCourse.is_free? 'Free Course' : pcatCourse.course_price + "SP"}</span>
               </div>
             </Link>
+            <CourseItem
+             course={pcatCourse}
+              inWishlist={true}
+              setInWishlist={()=>{console.log('test')}}
+              setInCart={()=>{console.log('test')}}
+              inCart={false}
+              addToCart={()=>{console.log('a')}}
+              removeFromWishlist={()=>{console.log('b')}}
+              addToWishlist={()=>{console.log('a')}}
+           />
       </SwiperSlide>
       )}
     </Swiper>

@@ -34,3 +34,12 @@
     background-color: purple !important;
     color: #fff;
 }
+
+
+.walletMoney{
+    background-color: #CA5B5B !important;
+    color: #fff !important;
+}
+.walletMoney::placeholder{
+    color: #fff !important;
+}

@@ -18,10 +18,10 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import 'swiper/swiper.min.css'
 import { useRef } from 'react'
 
-export const getRatingDiv = (rating) => {
+export const getRatingDiv = (rating, id=0) => {
                   
   if (rating === 0){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -31,7 +31,7 @@ export const getRatingDiv = (rating) => {
   }
     
   if (rating > 0 && rating <= 0.5){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -42,7 +42,7 @@ export const getRatingDiv = (rating) => {
 
 
   if (rating > 0.5 && rating <= 1){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -52,7 +52,7 @@ export const getRatingDiv = (rating) => {
   }
     
   if (rating > 1 && rating <= 1.5){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
     <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
     <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -62,7 +62,7 @@ export const getRatingDiv = (rating) => {
   }
 
   if (rating > 1.5 && rating <= 2){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bx-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -72,7 +72,7 @@ export const getRatingDiv = (rating) => {
   }
     
   if (rating > 2 && rating <= 2.5){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star-half' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -83,7 +83,7 @@ export const getRatingDiv = (rating) => {
 
 
   if (rating > 2.5 && rating <= 3){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -93,7 +93,7 @@ export const getRatingDiv = (rating) => {
   }
     
   if (rating > 3 && rating <= 3.5){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -103,7 +103,7 @@ export const getRatingDiv = (rating) => {
   }
 
   if (rating > 3.5 && rating <= 4){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -113,7 +113,7 @@ export const getRatingDiv = (rating) => {
   }
 
   if (rating > 4 && rating <= 4.85){                           
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -123,7 +123,7 @@ export const getRatingDiv = (rating) => {
  }     
 
   if (rating > 4.8){                        
-  return <span className="w-100">
+  return <span className="w-100" id={id}>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
       <i className='bx bxs-star' style={{color: "#F86161",fontSize:"1.4rem"}}></i>
@@ -136,6 +136,12 @@ export const getRatingDiv = (rating) => {
 const CourseContent = () => {
     const { course_id, course_name } = useParams()
     const history = useHistory()
+    const [star1, setStar1] = useState(true)
+    const [star2, setStar2] = useState(true)
+    const [star3, setStar3] = useState(true)
+    const [star4, setStar4] = useState(true)
+    const [star5, setStar5] = useState(true)
+
     const [course, setCourse] = useState({})
     const [ratings, setRatings] = useState([])
     const [counter, setCounter] = useState(0)
@@ -206,6 +212,7 @@ const CourseContent = () => {
       rating_content: ratingValue,
       rating_value: 1.0
     })
+    setRatingValue("")
     axios({
       method: 'POST',
       url: URL_ROOT + '/rating_manager/',
@@ -214,8 +221,15 @@ const CourseContent = () => {
       },
       data: data
   }).then(res=>{
-    console.log(res)
+    setRatings([...ratings,res.data.rating])
     }).catch(err=>console.log(err))
+  }
+
+
+  const handleStar1 = ()=>{
+    if(0){
+      
+    }
   }
 
   return (
@@ -326,22 +340,29 @@ const CourseContent = () => {
             <div className='col-xl-6 text-center'>
               <h5 className='mt-4'>How Would You Like To Rate This Course</h5>
               <div style={{cursor:'pointer'}}>
-                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"1.8rem"}}></i>
-                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2rem"}}></i>
-                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.2rem"}}></i>
-                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.4rem"}}></i>
-                <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.6rem"}}></i>
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"1.8rem"}}></i>
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2rem"}}></i>  
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.2rem"}}></i> 
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.4rem"}}></i> 
+              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.6rem"}}></i> 
               </div>
             </div>
 
             <div className='col-xl-6 d-flex justify-content-center'>
               <div class='gridded-overview'>
               <div className='text-center'>
-              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"1.8rem"}}></i> <br/>
-              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2rem"}}></i>   <br/>
-              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.2rem"}}></i> <br/> 
-              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.4rem"}}></i> <br/> 
-              <i className='bx bx-star mx-2' style={{color: "#F86161",fontSize:"2.6rem"}}></i> <br/> 
+              
+              {star1 &&<div style={{cursor:'pointer'}}><i className='bx bx-star mx-2' onClick={()=>{setStar1(false)}} style={{color: "#F86161",fontSize:"1.8rem"}}></i><br/></div>}
+                {!star1 &&<div style={{cursor:'pointer'}}> <i className='bx bxs-star mx-2' onClick={()=>{setStar1(true)}} style={{color: "#F86161",fontSize:"1.8rem"}}></i><br/></div>}
+                {star2 && <div style={{cursor:'pointer'}}><i className='bx bx-star mx-2' onClick={()=>{  setStar1(false);setStar2(false)}} style={{color: "#F86161",fontSize:"2rem"}}></i><br/></div>}
+                {!star2 &&<div style={{cursor:'pointer'}}> <i className='bx bxs-star mx-2' onClick={()=>{setStar1(true);setStar2(true)}} style={{color: "#F86161",fontSize:"2rem"}}></i><br/></div>}
+                {star3 && <div style={{cursor:'pointer'}}><i className='bx bx-star mx-2' onClick={()=>{}} style={{color: "#F86161",fontSize:"2.2rem"}}></i><br/></div>}
+                {!star3 &&<div style={{cursor:'pointer'}}> <i className='bx bxs-star mx-2' onClick={()=>{}} style={{color: "#F86161",fontSize:"2.2rem"}}></i><br/></div>}
+                {star4 && <div style={{cursor:'pointer'}}><i className='bx bx-star mx-2' onClick={()=>{}} style={{color: "#F86161",fontSize:"2.4rem"}}></i><br/></div>}
+                {!star4 &&<div style={{cursor:'pointer'}}> <i className='bx bxs-star mx-2' onClick={()=>{}} style={{color: "#F86161",fontSize:"2.4rem"}}></i><br/></div>}
+                {star5 && <div style={{cursor:'pointer'}}><i className='bx bx-star mx-2' onClick={()=>{}} style={{color: "#F86161",fontSize:"2.6rem"}}></i><br/></div>}
+                {!star5 &&<div style={{cursor:'pointer'}}> <i className='bx bxs-star mx-2' onClick={()=>{}} style={{color: "#F86161",fontSize:"2.6rem"}}></i><br/></div>}
+              
               </div>
               
               <div>

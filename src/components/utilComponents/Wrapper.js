@@ -7,7 +7,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import FavoriteBorderOutlined from '@mui/icons-material/FavoriteBorderOutlined'
 import LanguageIcon from '@mui/icons-material/Language';
 import Home from '../../pages/Home';
-import {Route, Link} from 'react-router-dom'
+import {Route, Link, useHistory} from 'react-router-dom'
 import Footer from './Footer'
 import Login from '../auth/Login';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,10 +31,14 @@ import CourseDetails from '../course/CourseDetails';
 import Account from '../instructor/Account';
 import Notifications from '../instructor/Notifications';
 import CourseByPC from '../../pages/CourseByPC';
+import Search from '../../pages/Search';
+import Wallet from '../payment/Wallet';
+import ManageStudyProgram from '../instructor/ManageStudyProgram';
 
 const Wrapper = () => {
    const instructor = useSelector(state => state.auth.instructor) || {}
    const data = useSelector(state => state.mainData.data) || []
+   const history = useHistory()
    //const [instructor, setInstructor] = useState(_instructor)
    const dispatch = useDispatch()
     const [token, setToken] =  useState(localStorage.getItem('token')) 
@@ -149,11 +153,11 @@ const Wrapper = () => {
             <a className="nav-link" href="#">Account Settings</a>
         </li>
         <li className="nav-item">
-        <a className="nav-link" href="#">Credits</a>
+        <Link className="nav-link" to="/wallet">My Wallet</Link>
     </li>
 
                 <li>
-                  <a href="#">Notifications</a>
+                  <Link to="/study_program">Study Program</Link>
                 </li>
                 <li onClick={handleLogout} style={{marginTop: 24,
                   border: "none"
@@ -198,12 +202,11 @@ const Wrapper = () => {
                 {data.map(pcat =>   <li className="inner-li" id={pcat.parent_category.parent_category_id} key={pcat.parent_category.parent_category_id}>
                   <p className="first-li-p" > <Link className="pcat_li" to={{
                     pathname : `/${pcat.parent_category.parent_category_id}/${pcat.parent_category.parent_category_name}/courses/`,
-                    state : {'pcat_id' : pcat.parent_category.parent_category_id}
                   }}>{pcat.parent_category.parent_category_name} </Link><i className="bx bxs-chevron-right"></i> </p>
                     <ul>
                     {pcat.categories.map(cat => 
                       <li id={cat.category.category_id} key={cat.category.category_id}>
-                        <p className="first-li-p">{cat.category.category_name} <i className="bx bxs-chevron-right"></i> </p>
+                        <p className="first-li-p"><Link className="pcat_li" to={"/" + cat.category.category_id + '/' + cat.category.category_name + '/courses/'}>{cat.category.category_name} <i className="bx bxs-chevron-right"></i> </Link></p>
                       </li>
                     )}
 
@@ -218,12 +221,16 @@ const Wrapper = () => {
 
 
 
-                <div className="input-field mx-4 choices-text-preset-values-div">
+                <form className="input-field mx-4 choices-text-preset-values-div" onSubmit={(e)=>{
+                  e.preventDefault()
+                  history.push('/courses/search/'+e.target.search_cont.value)
+                }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
                   </svg>
-                  <input className="form-control w-650" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
-              </div>
+                  <input name='search_cont' className="form-control w-650" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
+                  <input type="submit" hidden />
+              </form>
 
                 <button className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i className="fa fa-bars"></i>
@@ -312,9 +319,12 @@ const Wrapper = () => {
         <Route component={CourseDetails} path="/course/:course_name/:course_id"/>
         <Route component={CourseContent} path="/:course_name/:course_id/course_content"/>
         <Route component={CourseByPC} path="/:obj_id/:obj_name/courses"/>
+        
+        <Route component={Search} path="/courses/search/:course_name/"/>
 
         <Route component={Profile} path="/instructor/:instructor_name/:instructor_id"/>
         <Route component={Cart} path="/cart"/>
+        <Route component={Wallet} path="/wallet"/>
         <Route component={MyCourses} path="/my_courses"/>
         <Route component={Wishlist} path="/wishlist"/>
         <Route component={Checkout} path="/checkout"/>
@@ -327,6 +337,7 @@ const Wrapper = () => {
         <Route component={Account} path="/edit_profile"/>
         <Route component={Notifications} path="/notifications"/>
         
+        <Route component={ManageStudyProgram} path="/study_program"/>
         
           <Route 
           component={

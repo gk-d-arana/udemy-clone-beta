@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux'
 import Tick from './assets/check (1)@2x.png'
 import { useDispatch } from 'react-redux'
 import { getRatingDiv } from './CourseContent'
-
+import { useHistory } from 'react-router'
 
 export const getRatingList = (ratings) => {
   let ratingPercentage = [0, 0, 0, 0, 0]
@@ -64,7 +64,7 @@ export const CourseDetails = (props) => {
     const [ratings, setRatings] = useState([])
     const [showAddToCart, setShowAddToCart] = useState(false)
     const dispatch = useDispatch()
-
+    const history = useHistory()
     
   
     const [expandedRows, setExpandedRows] = useState([]);
@@ -133,7 +133,7 @@ export const CourseDetails = (props) => {
       }).then(res => { 
         console.log(res.data)
         setInCart(true)
-        setShowAddToCart(true)
+        document.querySelector('.show-btn-cart').click()
       }).catch(err => {
          console.log(err)
       })
@@ -296,10 +296,11 @@ export const CourseDetails = (props) => {
                     </div>
                   <div className="card-body text-center">
                     {inCart? <Link to="/cart"><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Cart</div><br /></Link> : 
-                    inMyLearning ? <Link to={"/course" + course.course_name + "/" + course.course_id +  "/course_content"}><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Course</div><br /></Link>:<><div>
+                    inMyLearning ? <Link to={"/course" + course.course_name + "/" + course.course_id +  "/course_content"}><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px' }}>Go To Course</div><br /></Link>:
+                    <><div>
                                 <div onClick={()=> addToCart()} className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
                                 <div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Buy Now</div> <br />
-                                <a href='#' style={{color:'#686EAD'}}>Apply Coupon</a><br />
+                                <span href='#' style={{color:'#686EAD'}}>Apply Coupon</span><br />
                     <p className="btn color-gold">{course.is_free? 'Free Course' : course.course_price + "SP"}</p><br />
                             </div></>}
                     
@@ -538,11 +539,10 @@ export const CourseDetails = (props) => {
 
 
       {/*  Added To Cart  */}
-                { showAddToCart && <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  Launch demo modal
-                </button>}
+                <button type="button" style={{display:'none'}} className="show-btn-cart btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                </button>
                 <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                  <div className="modal-dialog modal-dialog-centered" style={{minWidth:'50%', minHeight:'80%'}}>
                     <div className="modal-content">
                       <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel">Added To Cart</h5>
@@ -553,8 +553,11 @@ export const CourseDetails = (props) => {
                         <div className='col-4' style={{height:'230px',backgroundPosition: 'center', backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  course.course_image}')`}}>
                        </div>
                        <h4>{course.course_name}</h4>
-                       <Link to="/cart"><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
-                       </Link>
+                       <span onClick={(e)=>{
+        document.querySelector('.show-btn-cart').click()
+        history.push('/cart')
+                       }} to="/cart"><div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Go To Cart</div><br />
+                       </span>
                       </div>
                     </div>
                   </div>
