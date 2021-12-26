@@ -2,13 +2,23 @@ import {
     SET_MAIN_DATA,
     SET_TOP_SELLING_COURSES,
     COURSE_FAVOURITE,
-    SET_MY_COURSES
+    SET_MY_COURSES,
+    SET_RATINGS,
+    SET_TOP_INSTRUCTORS,
+    SET_TOP_PCATS,
+    SET_TOP_CATS,
+    SET_TESTS
 }  from "./mainDataTypes"; 
 
 const initialState = {
     data : [],
     topSellingCourses : [],
-    myCourses: []
+    myCourses: [],
+    ratingsByValue: [],
+    topInstructors: [],
+    topPcats : [],
+    topCats : [],
+    tests: []
 }
 
 
@@ -23,6 +33,31 @@ const mainDataReducer = (state=initialState, action) => {
             ...state,
             topSellingCourses : action.payload
         }
+        
+        case SET_RATINGS: return {
+            ...state,
+            ratingsByValue : action.payload
+        }
+        
+        case SET_TESTS: return {
+            ...state,
+            tests : action.payload
+        }
+        case SET_TOP_INSTRUCTORS: return {
+            ...state,
+            topInstructors : action.payload
+        }
+        
+        case SET_TOP_PCATS: return {
+            ...state,
+            topPcats : action.payload
+        }
+        
+        case SET_TOP_CATS: return {
+            ...state,
+            topCats : action.payload
+        }
+
         case COURSE_FAVOURITE : {
             let newState = state
             let index = newState.topSellingCourses.indexOf(tc => tc.course.course_id === action.payload)

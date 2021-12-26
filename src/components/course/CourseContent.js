@@ -393,6 +393,7 @@ const CourseContent = () => {
                 <p>{rating.rating_content}</p>
               </div>
             </div>
+            
 
           )}
           </div>

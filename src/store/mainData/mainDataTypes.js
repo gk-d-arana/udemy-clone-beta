@@ -2,6 +2,8 @@ export const SET_MAIN_DATA = "SET_MAIN_DATA";
 export const SET_TOP_SELLING_COURSES = "SET_TOP_SELLING_COURSES";
 export const COURSE_FAVOURITE = "ADD_COURSE_TO_FAVOURITE";
 export const SET_MY_COURSES = "SET_MY_COURSES";
-
-
-
+export const SET_RATINGS = "SET_RATINGS";
+export const SET_TOP_INSTRUCTORS = "SET_TOP_INSTRUCTORS";
+export const SET_TOP_PCATS = "SET_TOP_PCATS";
+export const SET_TOP_CATS = "SET_TOP_CATS";
+export const SET_TESTS = "SET_TESTS";

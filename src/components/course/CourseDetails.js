@@ -18,6 +18,8 @@ import Tick from './assets/check (1)@2x.png'
 import { useDispatch } from 'react-redux'
 import { getRatingDiv } from './CourseContent'
 import { useHistory } from 'react-router'
+import BackImage2 from '../../pages/assets/images/depositphotos_92448084-stock-illustration-computer-circuit-board-pattern-vector.png'
+
 
 export const getRatingList = (ratings) => {
   let ratingPercentage = [0, 0, 0, 0, 0]
@@ -178,6 +180,16 @@ export const CourseDetails = (props) => {
 
 
 
+  const handleBuytests = () =>{ 
+    console.log('bought')
+    //perform http request to  buy test
+
+    //success => 
+    history.push('/' + course.course_id + '/' + course.course_name + '/course_tests')
+    //err => history.push('/wallet)
+  }
+
+
   const addTcToWishlist = courseId => {
     const data = JSON.stringify({
       course_id : courseId
@@ -221,8 +233,8 @@ export const CourseDetails = (props) => {
 }
 
     return ( 
-        <div className='cxl my-3'>
-            <div className='wrapper1 d-flex'>
+        <div className='my-3'>
+            <div className='wrapper1 cx-1 d-flex'>
             <div className='col-8 general-info-wrapper' >
           <div className='control-height' style={{position:'relative'}} >
            <img src={Divider} alt="Nothing To See" className='des-img' />
@@ -300,10 +312,10 @@ export const CourseDetails = (props) => {
                     <><div>
                                 <div onClick={()=> addToCart()} className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Add To Cart</div><br />
                                 <div className='btn' style={{ backgroundColor: '#686EAD', color: '#fff', margin: '5px', padding:'10px 40px' }}>Buy Now</div> <br />
-                                <span href='#' style={{color:'#686EAD'}}>Apply Coupon</span><br />
-                    <p className="btn color-gold">{course.is_free? 'Free Course' : course.course_price + "SP"}</p><br />
-                            </div></>}
-                    
+                                <span href='#' style={{color:'#686EAD'}}>Apply Coupon</span><br /></div></>}
+                            
+                    <div className='d-flex align-items-center justify-content-between'>
+
                             {inWishlist ?
              <div onClick={()=>removeFromWishlist(course.course_id)} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
              color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
@@ -311,9 +323,12 @@ export const CourseDetails = (props) => {
                         </div>
                  :<div onClick={()=>addToWishlist(course.course_id)} className='btn' style={{border:'1px solid',boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
                  color:'#FB0000', margin:'5px', borderRadius:'20px' ,padding:'10px'}}>
-                        <i  className='bx bx-heart' color='#FB0000' style={{fontSize:'2rem'}}></i><br/>Add To Favourite
+                        <i  className='bx bx-heart' color='#FB0000' style={{fontSize:'1.2rem'}}></i><br/>Add To Favourite
                         </div>
                         }
+                    <p className="btn color-gold">{course.is_free? 'Free Course' : course.course_price + "SP"}</p><br />
+
+                    </div>
 
                   </div>
                 </div>
@@ -323,7 +338,7 @@ export const CourseDetails = (props) => {
             
 
             <div className='course-content my-5'>
-            <button type="button" className="to-learn-btn">Course Content</button>
+    <div className='cx-1'>        <button type="button" className="to-learn-btn">Course Content</button>
               
               
               
@@ -381,9 +396,44 @@ export const CourseDetails = (props) => {
     <li id={cr.id}>{cr.course_requirement}</li>
     ):""}
 </ul>
+</div>
 
 
 
+
+{/* Buy Test */}
+
+<div style={{position:'relative', height:275, backgroundColor:'#2D7BAB'}}>
+       <div style={{
+         backgroundImage: `url('${BackImage2}')`,
+         height:'100%',
+         width:'100%',
+         opacity:0.3,
+         backgroundSize: 'contain',
+         position:  'absolute'
+       }}></div>
+       <div className='w-100 row p-5' style={{position:'absolute'}}>
+         <div className='col-xl-10'>
+        <h3>To View Tests You Have To Buy It First</h3>
+        <h3> <i className='bx bx-pencil'></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+ tempor incididunt ut labore et dolore magna aliqua.</h3>
+         </div>
+
+       <div className='col-xl-2'>
+       <button onClick={()=>handleBuytests()} className='px-4 py-2 my-4' 
+     style={{fontSize:'1.3rem',color:'#fff', backgroundColor:'#CE0505', border:'none'}}>Buy Test Now {course.course_tests_price}</button>
+    
+       </div>
+
+       </div>
+       </div>
+
+
+
+
+
+
+<div className='cx-1'>
           {/* Description */}
           <button type="button" className=" to-learn-btn">Description</button>
           <div className='desc w-100'>
@@ -535,6 +585,7 @@ export const CourseDetails = (props) => {
 
           )}
 </div>  
+</div>
 
 
 

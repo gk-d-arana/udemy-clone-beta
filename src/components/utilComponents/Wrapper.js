@@ -7,7 +7,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import FavoriteBorderOutlined from '@mui/icons-material/FavoriteBorderOutlined'
 import LanguageIcon from '@mui/icons-material/Language';
 import Home from '../../pages/Home';
-import {Route, Link, useHistory} from 'react-router-dom'
+import {Route, Link, useHistory, useRouteMatch} from 'react-router-dom'
 import Footer from './Footer'
 import Login from '../auth/Login';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,8 +34,11 @@ import CourseByPC from '../../pages/CourseByPC';
 import Search from '../../pages/Search';
 import Wallet from '../payment/Wallet';
 import ManageStudyProgram from '../instructor/ManageStudyProgram';
+import ChoicesCourseTest from '../course/ChoicesCourseTest';
 
 const Wrapper = () => {
+    const { path, url } = useRouteMatch();
+
    const instructor = useSelector(state => state.auth.instructor) || {}
    const data = useSelector(state => state.mainData.data) || []
    const history = useHistory()
@@ -51,6 +54,24 @@ const Wrapper = () => {
   
     useEffect(() => {
       window.scrollByLines(-window.scrollY)
+
+      
+
+      axios({
+        method : 'GET',
+        url : URL_ROOT + '/instructors_by_rating/',
+        headers : {
+          Authorization : `${localStorage.getItem('token')}`
+        }
+      }).then(res=>{
+        dispatch({
+          type : "SET_TOP_INSTRUCTORS",
+          payload : res.data
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+      
 
       axios({
         method : 'GET',
@@ -314,40 +335,42 @@ const Wrapper = () => {
               
               */}
 
-
-          <Route component={Home} path="/" exact/>
-        <Route component={CourseDetails} path="/course/:course_name/:course_id"/>
-        <Route component={CourseContent} path="/:course_name/:course_id/course_content"/>
-        <Route component={CourseByPC} path="/:obj_id/:obj_name/courses"/>
         
-        <Route component={Search} path="/courses/search/:course_name/"/>
-
-        <Route component={Profile} path="/instructor/:instructor_name/:instructor_id"/>
-        <Route component={Cart} path="/cart"/>
-        <Route component={Wallet} path="/wallet"/>
-        <Route component={MyCourses} path="/my_courses"/>
-        <Route component={Wishlist} path="/wishlist"/>
-        <Route component={Checkout} path="/checkout"/>
-        <Route component={HelpAndSupport} path="/help_and_support"/>
-        <Route component={PrivacyAndPolicy} path="/privacy_and_policy"/>
-        <Route component={GetTheApp} path="/get_the_app"/>
-        <Route component={ContactUs} path="/contact_us"/>
-        <Route component={AboutUs} path="/about_us"/>
-        <Route component={TeachWithUs} path="/teach_with_us"/>
-        <Route component={Account} path="/edit_profile"/>
-        <Route component={Notifications} path="/notifications"/>
+        <Route component={Home} path={path} exact/>
+        <Route component={CourseDetails} path={`${path}course/:course_name/:course_id`}/>
+        <Route component={CourseContent} path={`${path}:course_name/:course_id/course_content`}/>
+        <Route component={CourseByPC} path={`${path}:obj_id/:obj_name/courses`}/>
         
-        <Route component={ManageStudyProgram} path="/study_program"/>
+        <Route component={Search} path={`${path}courses/search/:course_name/`}/>
+
+        <Route component={Profile} path={`${path}instructor/:instructor_name/:instructor_id`}/>
+        <Route component={Cart} path={`${path}cart`}/>
+        <Route component={Wallet} path={`${path}wallet`}/>
+        <Route component={MyCourses} path={`${path}my_courses`}/>
+        <Route component={Wishlist} path={`${path}wishlist`}/>
+        <Route component={Checkout} path={`${path}checkout`}/>
+        <Route component={HelpAndSupport} path={`${path}help_and_support`}/>
+        <Route component={PrivacyAndPolicy} path={`${path}privacy_and_policy`}/>
+        <Route component={GetTheApp} path={`${path}get_the_app`}/>
+        <Route component={ContactUs} path={`${path}contact_us`}/>
+        <Route component={AboutUs} path={`${path}about_us`}/>
+        <Route component={TeachWithUs} path={`${path}teach_with_us`}/>
+        <Route component={Account} path={`${path}edit_profile`}/>
+        <Route component={Notifications} path={`${path}notifications`}/>
+        <Route component={ChoicesCourseTest} path={`${path}:course_id/:course_name/course_tests`}/>
+        
+        
+        <Route component={ManageStudyProgram} path={`${path}study_program`}/>
         
           <Route 
           component={
-            routeProps => <Login setToken={setToken} />} path="/login" exact  />     
+            routeProps => <Login setToken={setToken} />} path={`${path}login`} exact  />     
           
             <Route 
             component={
-              routeProps => <Register setToken={setToken} />} path="/signup" exact  />     
+              routeProps => <Register setToken={setToken} />} path={`${path}signup`} exact/>     
           
-          <Route component={ForgotPassword} path="/forgot_password" exact />
+          <Route component={ForgotPassword} path={`${path}forgot_password`} exact />
 
           <Footer />
           <div className="know-top"></div>
