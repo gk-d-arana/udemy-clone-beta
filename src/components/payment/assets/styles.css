@@ -43,3 +43,28 @@
 .walletMoney::placeholder{
     color: #fff !important;
 }
+
+
+.or-div::before {
+	content: '';
+	display: inline-block;
+	height: 1px;
+	width: 20rem;
+	background: gray;
+	top: -5px;
+	position: relative;
+	left: -8px;
+}
+
+
+
+.or-div::after {
+	content: '';
+	display: inline-block;
+	height: 1px;
+	width: 20rem;
+	background: gray;
+	top: -5px;
+	position: relative;
+	right: -8px;
+}

@@ -51,7 +51,7 @@ const AllTests = () => {
                     <div>
             <PaginationComp count={count} setPage={setPage}/>
             <div className='my-4 d-flex justify-content-evenly'>
-                <button className='btn text-white px-5 py-3' style={{backgroundColor:'#0E564E'}}>Add Test</button>
+                <Link to="/control_panel/add_test"><button className='btn text-white px-5 py-3' style={{backgroundColor:'#0E564E'}}>Add Test</button></Link>
                 <button className='btn text-white px-5 py-3' style={{backgroundColor:'#C345DD'}}>Edit Test</button>
             </div>
             </div>

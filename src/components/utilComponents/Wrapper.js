@@ -35,6 +35,7 @@ import Search from '../../pages/Search';
 import Wallet from '../payment/Wallet';
 import ManageStudyProgram from '../instructor/ManageStudyProgram';
 import ChoicesCourseTest from '../course/ChoicesCourseTest';
+import DashHome from '../Dashboard/DashHome';
 
 const Wrapper = () => {
     const { path, url } = useRouteMatch();
@@ -44,7 +45,7 @@ const Wrapper = () => {
    const history = useHistory()
    //const [instructor, setInstructor] = useState(_instructor)
    const dispatch = useDispatch()
-    const [token, setToken] =  useState(localStorage.getItem('token')) 
+   const [token, setToken] =  useState(localStorage.getItem('token')) 
     const handleLogout = () => {
       setToken(null)
       localStorage.removeItem('token')
@@ -159,26 +160,26 @@ const Wrapper = () => {
               <span href="#" className="img logo rounded-circle mb-2" style={{backgroundImage: `url(${instructor.profile_image})`}}></span>
               <ul className="list-unstyled components mb-5">
                 <li className="active">
-                  <Link to="/"  className="dropdown-toggle">Home</Link>
+                  <Link to="/"  className="nav-link" onClick={()=>document.querySelector('#sidebar').classList.toggle('active')}>Home</Link>
                   </li>
                 <li>
-                    <Link to="/edit_profile">Profile</Link>
+                    <Link to="/edit_profile" onClick={()=>document.querySelector('#sidebar').classList.toggle('active')}>Profile</Link>
                 </li>
                 <li className="nav-item">
-                <Link className="nav-link" to="/my_courses">My Courses</Link>
+                <Link className="nav-link" onClick={()=>document.querySelector('#sidebar').classList.toggle('active')} to="/my_courses">My Courses</Link>
             </li>
                 <li className="nav-item">
-                <a className="nav-link" href="#">Messages</a>
+                <a className="nav-link" onClick={()=>document.querySelector('#sidebar').classList.toggle('active')} href="#">Messages</a>
             </li>
             <li className="nav-item">
-            <a className="nav-link" href="#">Account Settings</a>
+            <Link className="nav-link" onClick={()=>document.querySelector('#sidebar').classList.toggle('active')} to="/dashboard">My Dashboard</Link>
         </li>
         <li className="nav-item">
-        <Link className="nav-link" to="/wallet">My Wallet</Link>
+        <Link className="nav-link" onClick={()=>document.querySelector('#sidebar').classList.toggle('active')} to="/wallet">My Wallet</Link>
     </li>
 
                 <li>
-                  <Link to="/study_program">Study Program</Link>
+                  <Link to="/study_program" onClick={()=>document.querySelector('#sidebar').classList.toggle('active')}>Study Program</Link>
                 </li>
                 <li onClick={handleLogout} style={{marginTop: 24,
                   border: "none"
@@ -249,7 +250,7 @@ const Wrapper = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
                   </svg>
-                  <input name='search_cont' className="form-control w-650" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
+                  <input name='search_cont' className="form-control w-650" id="choices-text-preset-values" type="text" placeholder="Type to search..." required/>
                   <input type="submit" hidden />
               </form>
 
@@ -358,6 +359,7 @@ const Wrapper = () => {
         <Route component={Account} path={`${path}edit_profile`}/>
         <Route component={Notifications} path={`${path}notifications`}/>
         <Route component={ChoicesCourseTest} path={`${path}:course_id/:course_name/course_tests`}/>
+        <Route component={DashHome} path={`${path}dashboard`}/>
         
         
         <Route component={ManageStudyProgram} path={`${path}study_program`}/>

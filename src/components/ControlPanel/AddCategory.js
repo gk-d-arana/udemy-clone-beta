@@ -7,8 +7,8 @@ import { useHistory, useRouteMatch } from 'react-router'
 
 const AddCategory = () => {
     const [categoryName, setCategoryName] = useState("")
-    const [parentCategoryId, setParentCategoryId] = useState("")
     const [categoryDescription, setCategoryDescription] = useState("")
+    const [parentCategoryId, setParentCategoryId] = useState("")
     const tpc = useSelector(state => state.mainData.topPcats)
     const { path } = useRouteMatch()
 

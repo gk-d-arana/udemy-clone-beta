@@ -37,7 +37,7 @@ const Dashboard = () => {
         return <SwiperSlide>
             <div className="card h-100"style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px', top:0, borderRadius:'40px'}}>
             <div className='card-head'>
-        <Link  to={`/course/${course.course.course_name}/${course.course.course_id}/`} className='w-100 h-100' style={{backgroundPosition: 'center', 
+        <Link  to={path + `course_info/${course.course.course_id}/`} className='w-100 h-100' style={{backgroundPosition: 'center', 
         backgroundSize: 'cover' ,backgroundImage: `url('${URL_ROOT +  course.course.course_image}')`, display:'block',  borderRadius:'40px'}}>
         </Link>
             </div>

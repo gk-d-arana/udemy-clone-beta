@@ -84,8 +84,9 @@ export const MyCourses = (props) => {
             </div>
             </div>
             : ""}
-            <div className='position-absolute ct-c text-center'>
+            <div className='position-absolute ct-c d-flex text-center align-items-center' style={{flexDirection:'column'}}>
               <img className='cart-img ' src={myCoursesImage} alt='cart' />
+              <Link to="/add_course" className='btn text-white col-xl-4 my-3 py-3' style={{fontSize:'.9rem', backgroundColor:'#CE0505'}}>Add A New Course</Link>
             </div>
             </div>
     )

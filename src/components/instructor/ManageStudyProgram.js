@@ -34,12 +34,12 @@ const ManageStudyProgram = () => {
 
                 <div className='col-xl-8'>
 
-                <div class="mb-5 d-flex align-items-center">
+                <div class="mb-5 pb-5 pt-4 d-flex align-items-center">
                   <label for="" class="form-label mx-2" style={{width:'max-content', flexShrink:'0'}}>Number Of Lessons</label>
                   <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="" />
                 </div>
                 
-                <div class="mb-3 pt-5 d-flex align-items-center">
+                <div class="mb-3 d-flex align-items-center">
                   <label for="" class="form-label mx-2" style={{width:'max-content', flexShrink:'0'}}>Unexamined lessons:</label>
                   <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="" />
                 </div>
@@ -55,7 +55,7 @@ const ManageStudyProgram = () => {
         return  <div className='my-4 row w-100 align-items-center px-5 mx-3'>
         <div className="mb-3 col-xl-5 align-items-center d-flex row">
               <label htmlFor="" className="col-xl-5 m-0 form-label">Certain Obligations:  In day:</label>                    
-              <select className="form-select col-xl-5" aria-label="Default select example">
+              <select className="form-control col-xl-5" aria-label="Default select example">
                   <option value="Damascus">Damascus</option>
                   <option value="Allepo">Allepo</option>
                   <option value="Homs">Homs</option>
@@ -63,7 +63,7 @@ const ManageStudyProgram = () => {
             </div>
             <div className="mb-3 col-xl-5 align-items-center d-flex row">
               <label htmlFor="" className="m-0 col-xl-2 form-label">Duration</label>                    
-              <select className="form-select col-xl-5" aria-label="Default select example">
+              <select className="form-control col-xl-5" aria-label="Default select example">
                   <option value="Damascus">Damascus</option>
                   <option value="Allepo">Allepo</option>
                   <option value="Homs">Homs</option>
@@ -79,7 +79,7 @@ const ManageStudyProgram = () => {
         return <>
             <div className="mx-3 px-5 my-5 align-items-center d-flex row">
               <label htmlFor="" className="m-0 col-xl-4 form-label">How many subjects do you prefer to study per day?</label>                    
-              <select className="form-select col-xl-3" aria-label="Default select example">
+              <select className="form-control col-xl-3" aria-label="Default select example">
                   <option value="Damascus">Damascus</option>
                   <option value="Allepo">Allepo</option>
                   <option value="Homs">Homs</option>
@@ -87,7 +87,7 @@ const ManageStudyProgram = () => {
             </div>
             <div className="mx-3 px-5 my-5 align-items-center d-flex row">
               <label htmlFor="" className="m-0 col-xl-4 form-label">What time would you like to start your course?</label>                    
-              <select className="form-select col-xl-3" aria-label="Default select example">
+              <select className="form-control col-xl-3" aria-label="Default select example">
                   <option value="Damascus">Damascus</option>
                   <option value="Allepo">Allepo</option>
                   <option value="Homs">Homs</option>
@@ -95,7 +95,7 @@ const ManageStudyProgram = () => {
             </div>
             <div className="mx-3 px-5 my-5 align-items-center d-flex row">
               <label htmlFor="" className="m-0 col-xl-4 form-label">What time would you like to finish your course?</label>                    
-              <select className="form-select col-xl-3" aria-label="Default select example">
+              <select className="form-control col-xl-3" aria-label="Default select example">
                   <option value="Damascus">Damascus</option>
                   <option value="Allepo">Allepo</option>
                   <option value="Homs">Homs</option>
@@ -103,7 +103,7 @@ const ManageStudyProgram = () => {
             </div>
             <div className="mx-3 px-5 my-5 align-items-center d-flex row">
               <label htmlFor="" className="m-0 col-xl-4 form-label">Are you interested in literary or scientific subjects ?</label>                    
-              <select className="form-select col-xl-3" aria-label="Default select example">
+              <select className="form-control col-xl-3" aria-label="Default select example">
                   <option value="Damascus">Damascus</option>
                   <option value="Allepo">Allepo</option>
                   <option value="Homs">Homs</option>

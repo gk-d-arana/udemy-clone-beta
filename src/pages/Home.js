@@ -165,7 +165,8 @@ export const Home = (props) => {
           method : 'GET',
           headers: {
             Authorization : `${localStorage.getItem('token')}`
-          },
+          }, 
+          
           url: URL_ROOT + '/search_courses/' + randomePcatObject.parent_category.parent_category_id
         }).then(res=>{
           console.log('done')
@@ -222,8 +223,8 @@ export const Home = (props) => {
 
               <div className='d-flex justify-content-between'>
                 <div>
-                   <h3 style={{color:'#000', paddingLeft:'1.3rem'}}>{topCourses[i].course.course_name}</h3> 
-                   <h5 style={{color:'#000', paddingLeft:'1.3rem'}}> By {topCourses[i].course.course_instructor ? topCourses[i].course.course_instructor.user.username:""}</h5>
+                   <h3 style={{color:'#000'}}>{topCourses[i].course.course_name}</h3> 
+                   <h5 style={{color:'#000'}}> By {topCourses[i].course.course_instructor ? topCourses[i].course.course_instructor.user.username:""}</h5>
                     <h3 className='course-h'>
                       {topCourses[i].course.course_description}
                     </h3>
@@ -298,7 +299,7 @@ export const Home = (props) => {
                     return<div style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px', borderRadius:'120px'}} className='py-5 mx-3 col-xl-3 text-center'>
                       <img style={{width:'20%'}} src={URL_ROOT + d.parent_category.parent_category_image} alt='im'/>
                       <h3>{d.parent_category? d.parent_category.parent_category_name:""}</h3>
-                      <h4 style={{width:'max-content', margin:'0 auto'}}> {d.parent_category? d.parent_category.parent_category_description:""} </h4>
+                      <h4 style={{overflow:'hidden' ,margin:'0 auto', whiteSpace:'nowrap', textOverflow:'ellipsis'}}> {d.parent_category? d.parent_category.parent_category_description:""} </h4>
                       <h5 style={{margin:'0 auto', color:'red'}}>(134,543)</h5>
                     </div>  
                   }
@@ -310,7 +311,7 @@ export const Home = (props) => {
                     return<div style={{boxShadow:'rgba(0, 0, 0, 0.35) 0px 5px 15px', borderRadius:'120px'}} className='py-5 mx-3 col-xl-3 text-center'>
                       <img style={{width:'20%'}} src={URL_ROOT + d.parent_category.parent_category_image} alt='im'/>
                       <h3>{d.parent_category? d.parent_category.parent_category_name:""}</h3>
-                      <h4 style={{width:'max-content', margin:'0 auto'}}> {d.parent_category? d.parent_category.parent_category_description:""} </h4>
+                      <h4 style={{overflow:'hidden' ,margin:'0 auto', whiteSpace:'nowrap', textOverflow:'ellipsis'}}> {d.parent_category? d.parent_category.parent_category_description:""} </h4>
                       <h5 style={{margin:'0 auto', color:'red'}}>(134,543)</h5>
                     </div>  
                   }
@@ -329,3 +330,5 @@ export const Home = (props) => {
 
 
 export default Home
+
+

@@ -243,3 +243,19 @@ a {
 .nav_l:hover{
     color: #686EAD;
 }
+
+
+.gridded-goals2-tc{
+    display: grid;
+    grid-row-gap: 20px; 
+    grid-template-columns: auto auto;
+}
+
+.bolder-class {
+    font-weight: bolder !important;
+}
+
+
+.italic-class {
+    font-style: italic !important;
+}

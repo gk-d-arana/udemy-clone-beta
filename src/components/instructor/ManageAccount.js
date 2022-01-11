@@ -43,7 +43,6 @@ const ManageAccount = () => {
 
     const viewPass = (e) => {
         e.target.previousElementSibling.type === "text" ? e.target.previousElementSibling.type = "password" : e.target.previousElementSibling.type = "text" 
-
     }
 
 

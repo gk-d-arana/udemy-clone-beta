@@ -590,9 +590,9 @@ export const CourseDetails = (props) => {
 
 
       {/*  Added To Cart  */}
-                <button type="button" style={{display:'none'}} className="show-btn-cart btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" style={{display:'none'}} className="show-btn-cart btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal11">
                 </button>
-                <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="exampleModal11" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div className="modal-dialog modal-dialog-centered" style={{minWidth:'50%', minHeight:'80%'}}>
                     <div className="modal-content">
                       <div className="modal-header">

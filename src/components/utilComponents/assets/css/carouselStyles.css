@@ -22,3 +22,13 @@
 .swiper-button-prev::after{
     content: '' !important;
 }
+
+.hov-of-c{
+    position: absolute;
+    top: 0;
+    left: 110%;
+    z-index: 10;
+    width: inherit;
+}
+
+

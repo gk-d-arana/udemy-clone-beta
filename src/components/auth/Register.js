@@ -185,14 +185,14 @@ function Register ({setToken}) {
                         {loading && <CircularProgress />}
                         </button>
 					<div className="more-actions">
-						<span>By Signing Up You Agree To Our</span>  <a href="#">Terms</a>and <a href="#">Privacy</a><br/>
-						<span>{"Already Have An Account?"}</span> <a href="#">
+						<span>By Signing Up You Agree To Our</span>  <Link to="/privacy_and_policy">Terms And Privacy</Link><br/>
+						<span>{"Already Have An Account?"}</span> 
                         
                         
                         <Link to="/login" query={{ setToken: setToken }}> Login </Link>
                         
                         
-                        </a>
+                    
                         <br/>
 					</div>
 				</div>	

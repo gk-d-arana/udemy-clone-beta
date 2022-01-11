@@ -7,3 +7,4 @@ export const SET_TOP_INSTRUCTORS = "SET_TOP_INSTRUCTORS";
 export const SET_TOP_PCATS = "SET_TOP_PCATS";
 export const SET_TOP_CATS = "SET_TOP_CATS";
 export const SET_TESTS = "SET_TESTS";
+export const SET_NOTIFICATIONS = "SET_NOTIFICATIONS";

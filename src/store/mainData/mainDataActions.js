@@ -7,7 +7,8 @@ import {
     SET_TOP_INSTRUCTORS,
     SET_TOP_PCATS,
     SET_TOP_CATS,
-    SET_TESTS
+    SET_TESTS,
+    SET_NOTIFICATIONS,
 } from './mainDataTypes'
 
 
@@ -61,6 +62,7 @@ export const setTopInstructors = data => {
 
 
 
+
 export const setTopPcats = data => {
     return {
         type: SET_TOP_PCATS,
@@ -84,4 +86,9 @@ export const setTests = data => {
     }
 }
 
-
+export const setNotifications= data => {
+    return {
+        type: SET_NOTIFICATIONS,
+        payload: data
+    }
+}
