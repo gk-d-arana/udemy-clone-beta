@@ -1,11 +1,13 @@
 import {
     SET_TOKEN,
-    SET_INSTRUCTOR_INFO
+    SET_INSTRUCTOR_INFO,
+    SET_STUDY_PROGRAM
 }  from "./authTypes"; 
 
 const initialState = {
     token : `${localStorage.getItem('token')}`,
-    instructor : {}
+    instructor : {},
+    studyProgram : undefined
 }
 
 
@@ -37,7 +39,10 @@ const authReducer = (state=initialState, action) => {
                 "profile_image" : `${action.payload.profile_image}`
             }
         }
-
+        case SET_STUDY_PROGRAM : return {
+            ...state,
+            studyProgram : action.payload
+        }
         default: return state
     }
 }

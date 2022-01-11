@@ -5,7 +5,7 @@ import './assets/test.css'
 import { URL_ROOT } from '../../utils/js'
 
 
-const ChoicesCourseTest = () => {
+const CourseTest = () => {
     const { course_id, course_name } = useParams()
     const [loading, setLoading] = useState(false)
     
@@ -73,8 +73,8 @@ const ChoicesCourseTest = () => {
 
                     <p style={{fontSize:'1.3rem'}}>Section 1:</p>
                     <p style={{fontSize:'1.3rem', width:'70%', marginLeft:'1rem'}}>
-                        You have 30 mins to did this exam and  It will be reviewed by theinstructor soon
-                        and we will inform you of the result
+                        You have 30 mins to did this exam and  It will be reviewed by the instructor soon
+                        and we will inform you of the result.
                     </p>
 
                 </div>
@@ -131,8 +131,9 @@ const ChoicesCourseTest = () => {
 
                         {choicesTest&&<div className='content2'>
                             
-                        <p style={{fontSize:'1.3rem'}}>The First Exam</p>
+                        <p style={{fontSize:'1.3rem'}}>Exam 1</p>
 
+                        
                                 
 
 
@@ -154,4 +155,4 @@ const ChoicesCourseTest = () => {
 
 
 
-export default ChoicesCourseTest
+export default CourseTest

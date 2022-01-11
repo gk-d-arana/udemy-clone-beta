@@ -34,7 +34,7 @@ import CourseByPC from '../../pages/CourseByPC';
 import Search from '../../pages/Search';
 import Wallet from '../payment/Wallet';
 import ManageStudyProgram from '../instructor/ManageStudyProgram';
-import ChoicesCourseTest from '../course/ChoicesCourseTest';
+import CourseTest from '../course/CourseTest';
 import DashHome from '../Dashboard/DashHome';
 
 const Wrapper = () => {
@@ -57,6 +57,21 @@ const Wrapper = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       
+      axios({
+        method : 'GET',
+        url : URL_ROOT + '/manage_study_program/',
+        headers : {
+          Authorization : `${localStorage.getItem('token')}`
+        }
+      }).then(res=>{
+        dispatch({
+          type : "SET_STUDY_PROGRAM",
+          payload : res.data
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+      //
 
       axios({
         method : 'GET',
@@ -139,7 +154,7 @@ const Wrapper = () => {
 
       axios({
         method: "GET",
-        url : `${URL_ROOT}/pcats_and_cats_and_topics/`
+        url : `${URL_ROOT}/pcats_and_cats/`
       }).then(res=>res.data).then(res=>{
         dispatch({
           type : "SET_MAIN_DATA",
@@ -227,8 +242,8 @@ const Wrapper = () => {
                   }}>{pcat.parent_category.parent_category_name} </Link><i className="bx bxs-chevron-right"></i> </p>
                     <ul>
                     {pcat.categories.map(cat => 
-                      <li id={cat.category.category_id} key={cat.category.category_id}>
-                        <p className="first-li-p"><Link className="pcat_li" to={"/" + cat.category.category_id + '/' + cat.category.category_name + '/courses/'}>{cat.category.category_name} <i className="bx bxs-chevron-right"></i> </Link></p>
+                      <li id={cat.category_id} key={cat.category_id}>
+                        <p className="first-li-p"><Link className="pcat_li" to={"/" + cat.category_id + '/' + cat.category_name + '/courses/'}>{cat.category_name} <i className="bx bxs-chevron-right"></i> </Link></p>
                       </li>
                     )}
 
@@ -358,7 +373,7 @@ const Wrapper = () => {
         <Route component={TeachWithUs} path={`${path}teach_with_us`}/>
         <Route component={Account} path={`${path}edit_profile`}/>
         <Route component={Notifications} path={`${path}notifications`}/>
-        <Route component={ChoicesCourseTest} path={`${path}:course_id/:course_name/course_tests`}/>
+        <Route component={CourseTest} path={`${path}:course_id/:course_name/course_tests`}/>
         <Route component={DashHome} path={`${path}dashboard`}/>
         
         

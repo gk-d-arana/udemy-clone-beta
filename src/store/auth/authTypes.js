@@ -1,2 +1,4 @@
 export const SET_TOKEN = "SET_TOKEN"
 export const SET_INSTRUCTOR_INFO = "SET_INSTRUCTOR_INFO"
+export const SET_STUDY_PROGRAM = "SET_STUDY_PROGRAM"
+
