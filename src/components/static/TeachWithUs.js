@@ -14,7 +14,7 @@ import FinalImage from './assets/6461.png'
 
 export const TeachWithUs = () => {
     useEffect(()=>{
-        window.scrollByLines(-window.scrollY)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     })
     return (
         <div>

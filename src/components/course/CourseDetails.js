@@ -95,7 +95,7 @@ export const CourseDetails = (props) => {
     }
     
     useEffect(()=>{
-        window.scrollByLines(-window.scrollY)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
      
        axios({
           method: "GET",

@@ -23,7 +23,7 @@ const ChoicesCourseTest = () => {
         course_image : '/static/images/gk-arana.jpg'
     }
     useEffect(()=>{
-        window.scrollByLines(-window.scrollY)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         //check for test and get course
     },[])
 
@@ -123,7 +123,7 @@ const ChoicesCourseTest = () => {
 
                         </div>
                         <div className='d-flex w-100 justify-content-end align-items-center container'>
-                            <h3 style={{cursor:'pointer'}} onClick={()=>{ window.scrollByLines(-window.scrollY);setOverview(false);setChoicesTest(true)}}>Start Test <i className='bx bx-right-arrow-alt' ></i></h3>
+                            <h3 style={{cursor:'pointer'}} onClick={()=>{ window.scrollTo({ top: 0, behavior: 'smooth' });;setOverview(false);setChoicesTest(true)}}>Start Test <i className='bx bx-right-arrow-alt' ></i></h3>
                     </div>
                     </div>}
                     

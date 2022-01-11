@@ -24,7 +24,7 @@ const AddCourse = () => {
     const [testForWho, setTestForWho] = useState("")
 
     useEffect(()=>{
-      window.scrollByLines(-window.scrollY)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },[])
     
 

@@ -12,7 +12,7 @@ const CheckTrans = () => {
     const [count, setCount]= useState(1)
     const { path } = useRouteMatch()
     useEffect(()=>{
-        window.scrollByLines(-window.scrollY)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         
         console.log()
         axios({

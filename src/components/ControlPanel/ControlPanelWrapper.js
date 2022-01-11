@@ -33,7 +33,7 @@ const ControlPanelWrapper = () => {
     const notifs = useSelector(state => state.mainData.notifications.length)
     
     useEffect(() => {
-      window.scrollByLines(-window.scrollY)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       if(localStorage.getItem('token') === null){
         history.push('/')
       } 

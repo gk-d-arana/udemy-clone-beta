@@ -5,7 +5,7 @@ import './assets/styles.css'
 
 export const AboutUs = () => {
     useEffect(()=>{
-        window.scrollByLines(-window.scrollY)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     })
     
     return (

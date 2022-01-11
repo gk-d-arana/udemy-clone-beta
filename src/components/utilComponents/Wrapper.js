@@ -54,7 +54,7 @@ const Wrapper = () => {
     }
   
     useEffect(() => {
-      window.scrollByLines(-window.scrollY)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       
 

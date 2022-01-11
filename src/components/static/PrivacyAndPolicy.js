@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 export const PrivacyAndPolicy = () => {
     useEffect(()=>{
-        window.scrollByLines(-window.scrollY)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     })
     
     return (

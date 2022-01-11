@@ -151,7 +151,7 @@ const CourseContent = () => {
     const [expandState, setExpandState] = useState({});
     let currentSlide = -1
   useEffect(()=>{ 
-    window.scrollByLines(-window.scrollY)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
    
     axios({
         method: 'GET',
